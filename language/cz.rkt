@@ -1,58 +1,60 @@
 #lang racket/base
 (require racket/match
          "base.rkt")
-(provide (all-defined-out))
+(provide (all-defined-out)
+         pronoun)
 
-(struct phrase translation () #:transparent)
-(struct noun-phrase translation () #:transparent)
-(struct verb-phrase translation () #:transparent)
-(struct imperative-phrase translation () #:transparent)
-(struct prepositional-phrase translation () #:transparent)
+(define (adverb cz) (adv cz))
+(define (preposition cz) (prep cz))
+(define (conjunction cz) (conj cz))
+(define (prepositional-phrase cz) (prep-phrase cz))
 
-(struct noun translation () #:transparent)
-(struct pronoun translation () #:transparent)
-(struct adverb translation () #:transparent)
-(struct conjunction translation () #:transparent)
-(struct preposition translation () #:transparent)
+;; ----------------------------------------
+;; Adjectives
 
-(struct adj-base translation () #:transparent)
-(struct adj/i adj-base () #:transparent)
-(struct adj/y adj-base () #:transparent)
+(struct adj/i adj () #:transparent)
+(struct adj/y adj () #:transparent)
 
-(define (adjective cz rhs)
+;; adjective : String -> Element
+(define (adjective cz)
   (cond [(regexp-match #rx"^.*[áýé]$" cz)
-         (adj/y cz rhs)]
+         (adj/y cz)]
         [(regexp-match #rx"^.*í$" cz)
-         (adj/i cz rhs)]
+         (adj/i cz)]
         [else (error 'adjective "irregular adjective: ~e" cz)]))
 
-(struct verb-base translation () #:transparent)
-(struct verb/reg verb-base (stem ppart) #:transparent)
-(struct verb/a verb/reg () #:transparent)
-(struct verb/i verb/reg () #:transparent)
-(struct verb/uj verb/reg () #:transparent)
-(struct verb/e verb/reg () #:transparent)
-(struct verb/irr verb-base (forms ppart) #:transparent)
 
-(define (verb cz rhs)
+;; ----------------------------------------
+;; Verbs
+
+(struct reg-verb verb (stem ppart) #:transparent)
+(struct verb/a  reg-verb () #:transparent)
+(struct verb/i  reg-verb () #:transparent)
+(struct verb/uj reg-verb () #:transparent)
+(struct verb/e  reg-verb () #:transparent)
+(struct irr-verb verb (forms ppart) #:transparent)
+
+;; regular-verb : String -> Element
+(define (regular-verb cz)
   (cond [(regexp-match #rx"^(.*)ovat$" cz)
-         => (match-lambda [(list _ stem) (verb/uj cz rhs stem (string-append stem "oval"))])]
+         => (match-lambda [(list _ stem) (verb/uj cz stem (string-append stem "oval"))])]
         [(regexp-match #rx"^(.*)at$" cz)
-         => (match-lambda [(list _ stem) (verb/a cz rhs stem (string-append stem "al"))])]
+         => (match-lambda [(list _ stem) (verb/a cz stem (string-append stem "al"))])]
         [(regexp-match #rx"^(.*)([eěi])t$" cz)
-         => (match-lambda [(list _ stem vowel) (verb/i cz rhs stem (string-append stem vowel "l"))])]
+         => (match-lambda [(list _ stem vowel) (verb/i cz stem (string-append stem vowel "l"))])]
         [else (error 'verb "unknown infinitive form: ~e" cz)]))
 
-(define (irregular-verb cz rhs)
+;; irregular-verg : S-Expr -> Element
+(define (irregular-verb cz)
   (match cz
     [(list '#:a inf stem ppart)
-     (verb/a inf rhs stem ppart)]
+     (verb/a inf stem ppart)]
     [(list '#:i inf stem ppart)
-     (verb/i inf rhs stem ppart)]
+     (verb/i inf stem ppart)]
     [(list '#:e inf stem ppart)
-     (verb/e inf rhs stem ppart)]
+     (verb/e inf stem ppart)]
     [(list '#:irr inf 1s 2s 3s 1p 2p 3p ppart)
-     (verb/irr inf rhs (vector 1s 2s 3s 1p 2p 3p) ppart)]
+     (irr-verb inf (vector 1s 2s 3s 1p 2p 3p) ppart)]
     [_ (error 'irregular-verb "unknown form: ~e" cz)]))
 
 (define (conjugate v tense p)
@@ -61,11 +63,11 @@
 
 (define (conjugate/present v p)
   (match v
-    [(verb/a   _ _ stem _) (string-append stem (regular-verb-ending 'a p))]
-    [(verb/i   _ _ stem _) (string-append stem (regular-verb-ending 'i p))]
-    [(verb/uj  _ _ stem _) (string-append stem (regular-verb-ending 'uj p))]
-    [(verb/e   _ _ stem _) (string-append stem (regular-verb-ending 'e p))]
-    [(verb/irr _ _ forms _) (vector-ref forms (person->index p))]))
+    [(verb/a   _ stem _) (string-append stem (regular-verb-ending 'a p))]
+    [(verb/i   _ stem _) (string-append stem (regular-verb-ending 'i p))]
+    [(verb/uj  _ stem _) (string-append stem (regular-verb-ending 'uj p))]
+    [(verb/e   _ stem _) (string-append stem (regular-verb-ending 'e p))]
+    [(irr-verb _ forms _) (vector-ref forms (person->index p))]))
 
 (define (regular-verb-ending verb-type person)
   (vector-ref (regular-verb-endings verb-type) (person->index person)))

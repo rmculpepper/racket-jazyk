@@ -9,15 +9,18 @@
 
 ;; ------------------------------------------------------------
 
-;; An Entry is an abstract type. A typical subtype of Entry is a
-;; Translation, which relates two Elements of different languages.
+;; An Entry is one of:
+;; - (translation Element Element)
+;; - ...
+(struct translation (lhs rhs) #:transparent)
+
+;; A typical subtype of Entry is a Translation, which relates two
+;; Elements of different languages.
 
 ;; For example: "pracovat" = "work", "Mám otazku." = "I have a question."
 
-(struct translation (lhs rhs) #:transparent)
-
-;; Some variants of Entry imply additional relations beyond the one
-;; explicitly expressed by the Entry syntax.
+;; Some variants of Element imply additional relations beyond the one
+;; explicitly expressed by the translation syntax.
 
 ;; For example: "pracovat" = "work"  -->  "pracoval jsem" = "I worked"
 
@@ -28,42 +31,65 @@
 ;; object "tree".
 
 ;; ------------------------------------------------------------
-;; An Element is a String.
 
-;; An Element consists of one or more Words. Depending on context, it
-;; may be treated atomically or it may be subject to destructuring.
+;; An Element is one of:
+;; - String
+;; - (word String) or subtype
+;; - ....
+(struct word (key) #:transparent)
 
-;; For example: "pracovat", "ucím se", "ještě jednou", "Mám otazku."
+;; Additionally, an Element can have a GrammarType property.
+(define-values (prop:grammar prop:grammar? prop:grammar-ref)
+  (make-struct-type-property 'grammar))
 
-;; elem : (U String Symbol) -> Elem --- FIXME
-(define (elem s)
-  (cond [(symbol? s) (symbol->string s)]
-        [(string? s) s]
-        [(list? s) (map elem s)]
-        [(keyword? s) s]
-        [else (error 'word "bad argument: ~e" s)]))
+;; A GrammarType is one of
+;; - '#f     -- a sentence or a phrase that doesn't combine ("as is")
+;; - 'noun
+;; - 'verb
+;; - 'adj
+;; - 'adv
+;; - 'conj
+;; - 'prep
+(define (grammar-type elem) 
+  (and (prop:grammar? elem) (prop:grammar-ref elem)))
 
-;; explode-elem : Elem -> (Listof Word)
-(define (explode-elem e)
-  (string-split e))
+(define (elem-complete? elem) (eq? (grammar-type elem) #f))
+(define (elem-noun? elem) (eq? (grammar-type elem) 'noun))
+(define (elem-verb? elem) (eq? (grammar-type elem) 'verb))
+(define (elem-adj? elem)  (eq? (grammar-type elem) 'adj))
+(define (elem-adv? elem)  (eq? (grammar-type elem) 'adv))
+(define (elem-conj? elem) (eq? (grammar-type elem) 'conj))
+(define (elem-prep? elem) (eq? (grammar-type elem) 'prep))
 
-;; ok-elem? : Elem -> Boolean
-(define (ok-elem? s) (not (wildcard? s)))
+;; A Dictionary is Hash[String => (Listof Element)]
+(define (make-dictionary elems [base (hash)])
+  (for/fold ([d base]) ([elem (in-list elems)] #:when (word? elem))
+    (define key (word-key elem))
+    (hash-set d key (cons elem (hash-ref d key null)))))
 
-;; ------------------------------------------------------------
-;; A Word is a String.
+;; dictionary-ref : Dictionary String Symbol -> (U Element #f)
+(define (dictionary-ref d key gtype)
+  (cond [(hash-ref d key #f)
+         => (lambda (elems)
+              (for/first ([elem (in-list elems)]
+                          #:when (equal? (grammar-type elem) gtype))
+                elem))]
+        [else #f]))
 
-;; Depending on context, a Word may be treated atomically or it may be
-;; subject to destructuring.
+(struct noun word () #:transparent #:property prop:grammar 'noun)
+(struct pronoun word () #:transparent #:property prop:grammar 'noun)
+(struct verb word () #:transparent #:property prop:grammar 'verb)
+(struct adv  word () #:transparent #:property prop:grammar 'adv)
+(struct adj  word () #:transparent #:property prop:grammar 'adj)
+(struct conj word () #:transparent #:property prop:grammar 'conj)
+(struct prep word () #:transparent #:property prop:grammar 'prep)
 
-;; For example: "pracovat" (context: uj-verb) -> "pracuju"
+(struct phrase (words) #:transparent)
+(struct noun-phrase phrase () #:transparent #:property prop:grammar 'noun)
+(struct verb-phrase phrase () #:transparent #:property prop:grammar 'verb)
+(struct prep-phrase phrase () #:transparent #:property prop:grammar 'adv) ;; FIXME?
+(struct imperative-phrase phrase () #:transparent)
 
-;; The wildcard Word ("_") indicates unknown translation. It might be
-;; used, for example, to establish the part of speech and
-;; conjugation/declension of a word that otherwise appears in phrases.
+;; ============================================================
 
-;; wildcard? : Word -> Boolean
-(define (wildcard? s) (equal? s "_"))
-
-;; placeholder? : Word -> Boolean
-(define (placeholder? s) (regexp-match? #rx"^<.*>$" s))
+(define (join . xs) (string-join xs " "))

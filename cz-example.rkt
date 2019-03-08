@@ -6,7 +6,7 @@
 ;; ============================================================
 #:section "Prelude"
 
-#:kind noun-phrase
+#:translate noun-phrase
 "maskulinum animatum"		"masculine animate"
 "maskulinum inanimatum"		"masculine inanimate"
 feminum				feminine
@@ -22,12 +22,12 @@ vokativ				vocative
 lokál				locative
 instrumentál			instrumental
 
-#:kind adjective
+#:translate adjective
 kolokviální			colloquial
 ;;singulár			singular
 ;;plurál				plural
 
-#:kind imperative-phrase
+#:translate imperative-phrase
 čtete		read
 doplňte		"fill in"
 najděte		find
@@ -51,7 +51,7 @@ změňte		change
 ;; ============================================================
 #:section "Lekce 1"
 
-#:kind adjective
+#:translate adjective
 dobrý			good
 energický		energetic
 optimistický		optimistic
@@ -68,7 +68,7 @@ první			first
 druhý			second
 dlouhý			long
 
-#:kind adverb
+#:translate adverb
 tady			here
 pak			then
 hezky			nicely
@@ -78,24 +78,17 @@ určitě			certainly
 dobře			well
 špatně			badly
 
-#:kind conjunction
+#:translate conjunction
 a			and
 nebo			or
 ale			but
 
-#:kind noun
+#:translate noun
 den			day
 otázka			question
 substantiva		nouns
 adjektiva		adjectives
 verba			verbs
-student/studentka	student
-profesor/profesorka	professor
-doktor/doktorka		doctor
-manažer/manažerka	manager
-prezident/prezidentka	president
-politik/politička	politician
-kamarád/kamarádka	friend
 supermarket		supermarket
 kontakt			contact
 mítink			meeting
@@ -116,28 +109,57 @@ rádio			radio
 espresso		espresso
 centrum			center
 dialogy			dialogues
-učitel/učitelka		teacher
-vědec/vědkyně		scientist
-lékař/lékařka		doctor
-sportovec/sportovkyně	athlete
 pan			Mr.
 paní			Ms.
 čislo			number
 přiklad			example
-úředník/úřednice	clerk
-dělník/dělnice		laborer
-číšník/servírka		waiter/waitress
-prodavač/prodavačka	"shop assistant"
-policista/policistka	policeman/policewoman
-uklízeč/uklízečka	cleaner
-hasič/hasička		firefighter
-herec/herečka		actor/actress
-zpěvák/zpěvačka		singer
 
-#:kind pronoun
+student			student
+profesor		professor
+doktor			doctor
+manažer			manager
+prezident		president
+politik			politician
+kamarád			friend
+učitel			teacher
+vědec			scientist
+lékař			doctor
+sportovec		athlete
+úředník			clerk
+dělník			laborer
+číšník			waiter
+prodavač		"shop assistant"
+policista		policeman
+uklízeč			cleaner
+hasič			firefighter
+herec			actor
+zpěvák			singer
+
+učitelka		teacher
+vědkyně			scientist
+lékařka			doctor
+sportovkyně		athlete
+úřednice		clerk
+dělnice			laborer
+servírka		waitress
+prodavačka		"shop assistant"
+policistka		policewoman
+uklízečka		cleaner
+hasička			firefighter
+herečka			actress
+zpěvačka		singer
+studentka		student
+profesorka		professor
+doktorka		doctor
+manažerka		manager
+prezidentka		president
+politička		politician
+kamarádka		friend
+
+#:translate pronoun
 kdo			who
 
-#:kind verb
+#:translate regular-verb
 znamenat			mean
 studovat			study
 telefonovat			telephone
@@ -150,7 +172,7 @@ rozumět				understand
 pracovat			work
 mluvit				speak
 
-#:kind irregular-verb
+#:translate irregular-verb
 [#:irr být jsem jsi je jsme jste jsou byl]	be
 [#:a mít m měl]			have
 [#:i jíst j jedl]		eat
@@ -159,12 +181,12 @@ mluvit				speak
 ;; FIXME
 ;; ? /  řekne	  		say
 
-#:kind preposition
+#:translate preposition
 v/ve				"in, at"
 z				from
 na				"in, at" ;; FIXME
 
-#:kind prepositional-phrase
+#:translate prepositional-phrase
 "v České republice"		"in the Czech Republic"
 "ve škole"			"at school"
 "z Ameriky"			"from America"
@@ -174,7 +196,7 @@ na				"in, at" ;; FIXME
 "z Německa"			"from Germany"
 "z Polska"			"from Poland"
 
-#:kind phrase
+#:translate phrase
 "Seznamujeme se."		"We introduce ourselves." ;; ??
 "Dobrý den." 			"Good day."
 "Těší mě." 			"Nice to meet you."
@@ -271,7 +293,7 @@ _	podtržítko
 ;; ============================================================
 #:section "Lekce 2"
 
-#:kind adjective
+#:translate adjective
 nějaký			some ; ???
 národní			national
 mezinárodní		international
@@ -282,7 +304,7 @@ sympatický		likeable
 historický		historic
 český			Czech
 
-#:kind adverb
+#:translate adverb
 kde			where
 blízko			near
 daleko			far
@@ -319,11 +341,11 @@ dole			down
 uprostřed		"in the middle"
 vzadu			"at the back"
 
-#:kind conjunction
+#:translate conjunction
 protože			because
 že			that
 
-#:kind noun
+#:translate noun
 nádraží			"train station"		; n
 náměstí			"(town) square"		; n
 nemocnice		hospital
@@ -367,25 +389,25 @@ země			country
 klum			club
 práce			work
 
-#:kind verb
+#:translate regular-verb
 hledat			seek
 bydlet			"live (reside)"
 
-#:kind irregular-verb
+#:translate irregular-verb
 [#:i vědět v věděl]	know ;; ??
 [#:e moct můž mohl]	"can, be able"
 [#:e jít jd šel]	"walk" ;; FIXME: šel/šla !
 [#:e jet jed jel]	"go (by vehicle)"
 
-#:kind noun-phrase
+#:translate noun-phrase
 "Pražský hrad"		"Prague castle"
 "jenom jeden problém"	"only one problem"
 "číslo domu" 		"house number"
 
-#:kind preposition
+#:translate preposition
 jako			as
 
-#:kind prepositional-phrase
+#:translate prepositional-phrase
 "na výlet"			"on a trip"
 "v Praze"			"in Prague"
 "ve firmě"			"at (the) firm"
@@ -396,13 +418,13 @@ jako			as
 "z Afriky"			"from Africa"
 "z Asie"			"from Asia"
 
-#:kind verb-phrase
+#:translate verb-phrase
 "jet autem"		"go by car"
 "jet autobusem"		"go by bus"
 "jet metrem"		"go by metro (subway)"
 "jmenovat se"		"be called"
 
-#:kind phrase
+#:translate phrase
 "od místa, kde jste teď"	"from the place, where you are now"
 "Kde je tady nějaký ...?"	"Where around here is some ...?"
 "Prosím vás, nevíte, ...?"	"Please, do you know ...?"
@@ -446,7 +468,7 @@ Numbers
 ;; ============================================================
 #:section "Lekce 3"
 
-#:kind adjective
+#:translate adjective
 typický			typical
 hovězí			beef
 kuřecí			chicken
@@ -477,7 +499,7 @@ nějaký			somewhat ; (?? not adverb! ??)
 nemocný			sick
 hodný			"good (kind?)"
 
-#:kind adverb
+#:translate adverb
 dneska			today
 jak			how
 zvlášť			separately
@@ -492,7 +514,7 @@ nějak			somehow
 vůbec			"at all"
 trochu			"a little"
 
-#:kind noun
+#:translate noun
 jídlo			food
 pití			drink
 polevka			soup
@@ -521,23 +543,24 @@ kuchař			cook			; m
 něco			anything
 cena			price
 spropitné		tip
-vegeterián/vegeteriánka	vegeterian
 dort	    		cake
 cukr			sugar
 mlélko			milk
 peníze			money
 čas			time
 nálada			mood
+vegeterián		vegeterian
+vegeteriánka		vegeterian
 
-#:kind conjunction
+#:translate conjunction
 když			when
 
-#:kind verb
+#:translate regular-verb
 myslit			think
 řikat			say
 pozvat			invite
 
-#:kind irregular-verb
+#:translate irregular-verb
 [#:e čist čt četl]	read
 [#:e pít pij pil]	drink
 [#:irr chtít chci chseš chce chceme chcete chtějí chtěl]	want
@@ -545,11 +568,11 @@ pozvat			invite
 ;; chtěl/chtěla	  	"would like" -- conditional? (p29)
 ;; ?, pomoct		help
 
-#:kind noun-phrase
+#:translate noun-phrase
 "jídelní listek"	menu
 "<NUM> korun"		"<NUM> (of) crowns"
 
-#:kind verb-phrase
+#:translate verb-phrase
 "mít čas"		"have time"
 "mít depresi"		"be depressed"
 "mít dietu"		"be on a diet"
@@ -570,16 +593,16 @@ pozvat			invite
 "mít vztek"		"be angry"
 "mít žízeň"		"be thirsty"
 
-#:kind preposition
+#:translate preposition
 s/se			with
 
-#:kind prepositional-phrase
+#:translate prepositional-phrase
 "se šlehačkou"		"with whipped cream"
 "s ovocem"		"with fruit"
 "na obědě"		"at lunch"
 "na kávu"		"to coffee"
 
-#:kind phrase
+#:translate phrase
 "Jaké(*) ... znáte?"		"What ... do you know (of)?"
 "Dám si ..." 			"I will have ... (only ordering food)."
 "Kolik stojí ...?"		"How much does ... cost?"
@@ -638,7 +661,7 @@ inf	chtít
 ;; ============================================================
 #:section "Lekce 4"
 
-#:kind adjective
+#:translate adjective
 jazykový			language
 vdaná				"married (f)"
 ženatý				"married (m)"
@@ -668,13 +691,13 @@ nervozní			nervous
 pasivní				passive
 jaký				"what ... like"
 
-#:kind adverb
+#:translate adverb
 prostě				just
 
-#:kind conjunction
+#:translate conjunction
 i				"and even"
 
-#:kind noun
+#:translate noun
 jazyk				language
 rodina				family
 byt				apartment
@@ -701,7 +724,8 @@ tchán				father-in-law
 tchyně				mother-in-law
 zeť				son-in-law
 snacha				daughter-in-law
-strýc/strejda			uncle
+strýc				uncle ;; ???
+strejda				uncle ;; ???
 teta				aunt
 neteř  				niece
 sestřenice			cousin
@@ -710,19 +734,19 @@ sleva				discount
 matka				mother
 otec				father
 
-#:kind verb
+#:translate regular-verb
 učit				teach
 
-#:kind verb-phrase
+#:translate verb-phrase
 "učit se"			learn
 
-#:kind prepositional-phrase
+#:translate prepositional-phrase
 "na fotografii"			"in the photo"
 "jako automechanik"		"as an automechanic"
 "z Německa"			"from Germany"
 "v jazykové škole"		"at a language school"
 
-#:kind phrase
+#:translate phrase
 "Je mi <NUM> let."		"I am <NUM> years old. (I have <NUM> years.)"
 "Kolik vám je?"			"How old are you?"
 "Učím čeština."			"I teach Czech (the Czech language)."
@@ -776,14 +800,14 @@ Counting thousands
 ;; ============================================================
 #:section "Lekce 6"
 
-#:kind adjective
+#:translate adjective
 ospalý			sleepy
 unavený			tired
 každý			"each, every"
 hlavní			main
 teplý			warm
 
-#:kind adverb
+#:translate adverb
 kdy			when
 třeba			perhaps
 zítra			tomorrow
@@ -810,12 +834,12 @@ někdy			sometimes
 nikdy			never ; (w/ "ne")
 malokdy			seldom
 
-#:kind conjunction
+#:translate conjunction
 až			until
 když			when
 proto			"and therefore"
 
-#:kind noun
+#:translate noun
 učebnice		textbook
 strana			page
 půl			half
@@ -834,7 +858,7 @@ fotbal			football
 teplo			heat
 večeře			dinner
 
-#:kind verb
+#:translate regular-verb
 začínat			"start, begin" ; ???
 končit			end
 nakupovat		shop
@@ -848,7 +872,7 @@ poslouchat		listen
 obědvat			"eat lunch"
 cvičit			exercise
 
-#:kind irregular-verb
+#:translate irregular-verb
 [#:e plavat plav plaval]	swim
 [#:e hrat hraj hral]		play
 [#:e psát piš psal]		write
@@ -856,7 +880,7 @@ cvičit			exercise
 ;; ?, žít			"live, reside"
 ;; zapomnět			forget ?
 
-#:kind verb-phrase
+#:translate verb-phrase
 "jde spát"			"go to sleep" ;; FIXME: inf
 "poslouchat hudbu"		"listen to music"
 "hrat tenis"			"play tenis"
@@ -864,7 +888,7 @@ cvičit			exercise
 "cvičit aerobik"		"do aerobics"
 "žít spolu"			"live together"
 
-#:kind prepositional-phrase
+#:translate prepositional-phrase
 "v jednu (hodinu)"			"at one o'clock"
 "ve {dvě, tři, čtyři} (hodiny)"		"at {two,three,four} o'clock"
 "v {pět, ...} (hodin)"			"at {five, ...} o'clock"
@@ -877,7 +901,7 @@ cvičit			exercise
 "na straně <NUM>"			"on page <NUM>"
 "na počítači"				"on the computer"
 
-#:kind phrase
+#:translate phrase
 "Kdy je to?"				"When is it?"
 "Kolik je hodin?"			"What time (o'clock) is it?"
 "Kdy se sejdeme?"			"When do we meet?"

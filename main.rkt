@@ -26,19 +26,24 @@
              #:with ast #'(list (section 'name (append p.ast ...)))))
 
   (define-splicing-syntax-class part
+    #:attributes (ast)
     (pattern (~seq #:escape e:expr ...)
              #:with ast #'(list e ...))
-    (pattern (~seq #:kind k:kind e:entry ...)
-             #:with ast #'(list (k.tx (elem 'e.lhs) (elem 'e.rhs)) ...)))
-
-  (define-syntax-class kind
-    (pattern tx:id))
+    (pattern (~seq #:words k:id e:elem ...)
+             #:with ast #'(list (k e.ast) ...))
+    (pattern (~seq #:translate k:id e:entry ...)
+             #:with ast #'(list (translation (k e.lhs.ast) e.rhs.ast) ...)))
 
   (define-splicing-syntax-class entry
-    (pattern (~seq lhs:elem (~optional (~datum =)) rhs:elem)))
+    #:attributes (lhs.ast rhs.ast)
+    (pattern (~seq lhs:elem rhs:elem)))
 
   (define-syntax-class elem #:opaque
-    (pattern (~and t:term (~not (~datum =)))))
+    #:attributes (ast)
+    (pattern (~and (unquote e:expr) ~!)
+             #:with ast #'e)
+    (pattern t:term
+             #:with ast #'(convert (quote t))))
 
   )
 
@@ -49,3 +54,8 @@
         (provide jazyk)
         s.def ... ...
         (define jazyk (append s.ast ...)))]))
+
+(define (convert x)
+  (cond [(symbol? x) (symbol->string x)]
+        [(list? x) (map convert x)]
+        [else x]))
