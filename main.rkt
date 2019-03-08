@@ -35,7 +35,7 @@
     (pattern tx:id))
 
   (define-splicing-syntax-class entry
-    (pattern (~seq lhs:elem (~datum =) rhs:elem)))
+    (pattern (~seq lhs:elem (~optional (~datum =)) rhs:elem)))
 
   (define-syntax-class elem #:opaque
     (pattern (~and t:term (~not (~datum =)))))

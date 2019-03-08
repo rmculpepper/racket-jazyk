@@ -35,10 +35,12 @@
 
 ;; For example: "pracovat", "ucím se", "ještě jednou", "Mám otazku."
 
-;; elem : (U String Symbol) -> Elem
+;; elem : (U String Symbol) -> Elem --- FIXME
 (define (elem s)
   (cond [(symbol? s) (symbol->string s)]
         [(string? s) s]
+        [(list? s) (map elem s)]
+        [(keyword? s) s]
         [else (error 'word "bad argument: ~e" s)]))
 
 ;; explode-elem : Elem -> (Listof Word)
