@@ -39,7 +39,7 @@
     (pattern (~seq lhs:elem rhs:elem)))
 
   (define-syntax-class elem #:opaque
-    #:attributes (ast)
+    #:attributes (ast) #:literals (unquote)
     (pattern (~and (unquote e:expr) ~!)
              #:with ast #'e)
     (pattern t:term

@@ -83,7 +83,7 @@ a			and
 nebo			or
 ale			but
 
-#:translate noun
+#:translate inanimate-noun
 den			day
 otázka			question
 substantiva		nouns
@@ -109,11 +109,12 @@ rádio			radio
 espresso		espresso
 centrum			center
 dialogy			dialogues
-pan			Mr.
-paní			Ms.
 čislo			number
 přiklad			example
+pan			Mr.
+paní			Ms.
 
+#:translate animate-noun
 student			student
 profesor		professor
 doktor			doctor
@@ -345,7 +346,7 @@ vzadu			"at the back"
 protože			because
 že			that
 
-#:translate noun
+#:translate inanimate-noun
 nádraží			"train station"		; n
 náměstí			"(town) square"		; n
 nemocnice		hospital
@@ -355,16 +356,13 @@ stanice			station
 divadlo			theater
 obchod			"shop, store"
 vlak			train
-kancelář		office			; f
+[#:f kancelář]		office			; f
 počítač			computer
-tramvaj			tram			; f
-muzeum			muzeum 			; n
-kolega			colleague 		; m
-turista			tourist			; m
+[#:f tramvaj]		tram			; f
+[#:n muzeum]		muzeum 			; n
 kavárna			cafe			; f
 parkoviště		"parking lot"		; n
-kuře			chicken	 		; n
-recepční		receptionist		; m/f
+[#:n kuře]		chicken	 		; n
 kolo			bicycle
 ulice			street
 obrázek			picture
@@ -388,6 +386,11 @@ přímení			surname			; ?
 země			country
 klum			club
 práce			work
+
+#:translate animate-noun
+[#:m kolega]		colleague 		; m
+[#:m turista]		tourist			; m
+recepční		receptionist		; m/f, FIXME
 
 #:translate regular-verb
 hledat			seek
@@ -514,7 +517,7 @@ nějak			somehow
 vůbec			"at all"
 trochu			"a little"
 
-#:translate noun
+#:translate inanimate-noun
 jídlo			food
 pití			drink
 polevka			soup
@@ -542,13 +545,15 @@ oběd			lunch
 kuchař			cook			; m
 něco			anything
 cena			price
-spropitné		tip
 dort	    		cake
 cukr			sugar
 mlélko			milk
 peníze			money
 čas			time
 nálada			mood
+[#:n spropitné]		tip
+
+#:translate animate-noun
 vegeterián		vegeterian
 vegeteriánka		vegeterian
 
@@ -697,24 +702,26 @@ prostě				just
 #:translate conjunction
 i				"and even"
 
-#:translate noun
+#:translate inanimate-noun
 jazyk				language
-rodina				family
 byt				apartment
-pes				dog
-kočka				cat
+skupina				group
+sleva				discount
+
+#:translate animate-noun
+rodina				family
 tatínek				father
 maminka				mother
 syn				son
 dcera				daughter
 přitel				boyfriend
-přitelkyně			girlfrient
+přitelkyně			girlfriend
 bratr				brother
 sestra				sister
 manžel				husband
 manželka			wife
 švagr				brother-in-law
-švagrová			sister-in-law
+[#:f švagrová]			sister-in-law
 babička				grandmother
 vnuk				grandson
 vnučka				granddaughter
@@ -725,14 +732,14 @@ tchyně				mother-in-law
 zeť				son-in-law
 snacha				daughter-in-law
 strýc				uncle ;; ???
-strejda				uncle ;; ???
+[#:m strejda]			uncle ;; ???
 teta				aunt
 neteř  				niece
 sestřenice			cousin
-skupina				group
-sleva				discount
 matka				mother
 otec				father
+pes				dog
+kočka				cat
 
 #:translate regular-verb
 učit				teach
@@ -839,7 +846,7 @@ až			until
 když			when
 proto			"and therefore"
 
-#:translate noun
+#:translate inanimate-noun
 učebnice		textbook
 strana			page
 půl			half
