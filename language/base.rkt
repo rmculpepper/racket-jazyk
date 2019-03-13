@@ -5,7 +5,7 @@
 ;; ------------------------------------------------------------
 ;; A Section is a named list of Entries.
 
-(struct section (name parts) #:prefab)
+(struct section (name entries) #:transparent)
 
 ;; ------------------------------------------------------------
 
