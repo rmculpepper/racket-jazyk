@@ -25,7 +25,7 @@ instrumentál			instrumental
 #:translate adjective
 kolokviální			colloquial
 ;;singulár			singular
-;;plurál				plural
+;;plurál			plural
 
 #:translate imperative-phrase
 čtete		read
