@@ -398,6 +398,8 @@ recepční		receptionist		; m/f, FIXME
 #:translate regular-verb
 hledat			seek
 bydlet			"live (reside)"
+vidět                   see
+musit                           must
 
 #:translate irregular-verb
 [#:i vědět v věděl]	know ;; ??
@@ -934,3 +936,222 @@ afternoon	= odpoledne	"in the afternoon"	= odpoledne
 evening		= večer		"in the evening"	= večer
 night		= noc		"at night"		= v noci
 |#
+
+
+
+
+;; ============================================================
+#:section "Notes circa 2018-10"
+
+#:translate adjective
+důležitý                        important
+užitečný                        useful
+podobný                         similar
+stejný                          same
+kompletní                       complete
+studený                         cold
+chladný                         frigid
+
+#:translate adverb
+méně                            less
+včas                            "on time"
+vlastně                         actually
+
+#:translate conjunction
+jestli                          "if, whether"
+
+#:translate inanimate-noun
+možnost                         possibility ;; pl w/ -í
+hruška                          pear
+jablko                          apple
+jahoda                          strawberry
+žánr                            genre
+chyba                           mistake
+
+#:translate regular-verb
+řídit                           "drive, manage, control"
+kompletovat                     complete
+pršet                           rain
+odpočivat                       "relax, repose"
+
+#:translate phrase ;; adverb-phrase
+"jedenkrat za týden"            "once per week"
+"jednou za týden"               "once per week"
+
+#:translate noun-phrase
+"něco jiného"                   "something else"
+
+#:translate verb-phrase
+"řídit auto"                    "drive a car"
+"procházet se"                  "wander, walk around"
+
+#:translate phrase
+"To je mi líto."                "I'm sorry. (sympathy, not apology)"
+"Prší."                         "It is raining."
+"ani ... ani ..."               "neither ... nor ..."
+"Ja to zkusím."                 "I will try it."
+
+
+;; ============================================================
+#:section "Notes up to 2018-07"
+
+#:translate adverb
+skoro                           almost
+
+#:translate inanimate-noun
+vtip                            joke
+
+
+;; ============================================================
+#:section "Notes circa 2019-01"
+
+#:translate adjective
+klidný                          quiet
+známý                           known
+uznámý                          recognized
+
+#:translate phrase ;; adjective-phrase/irregular-adjective ??
+několik                         several
+
+#:translate adverb
+letadlem                        "by airplane"
+víc                             more
+všude                           everywhere
+
+#:translate inanimate-noun
+teplo                           heat
+lekce                           lesson
+sníh                            snow
+barva                           color
+místo                           place
+cesta                           "way, route"
+letadlo                         airplane
+měsíc                           month
+týden                           week
+Vánoce                          Christmas
+instrukce                       instructions
+
+#:translate animate-noun
+člověk                          "person, human"
+lidí                            people ;; pl of lidé
+populace                        population
+krava                           cow
+
+#:translate regular-verb
+letět                           fly   ;; vs létat?
+startovat                       start ;; ???
+
+#:translate prepositional-phrase
+"v zimě"                        "in winter"
+"v menza"                       "in the canteen"
+"za dva měsíce"                 "in two months"
+"za pět měsíců"                 "in five months"
+"na Vánoce"                     "at Christmas"
+
+#:translate phrase
+"ten den"                       "(on) that day"
+"ten čas"                       "(at) that time"
+
+
+;; ============================================================
+#:section "Notes circa 2019-02"
+
+#:translate adjective
+špinavý                         dirty
+menší                           smaller
+
+#:translate inanimate-noun
+počasi                          weather
+hora                            mountain
+sporák                          stove
+pohled                          postcard
+dané                            tax
+
+#:translate animate-noun
+čarodějnice                     witch
+
+#:translate regular-verb
+posilat                         send
+fungovat                        "work, function"
+uživat                          "use, enjoy"
+použivat                        use   ;; ou is not dipthong
+
+#:translate prepositional-phrase
+"na horak"                      "in the mountains"
+"v létě"                        "in the summer"
+"ve kterem patře"               "on which floor"
+
+#:translate phrase
+"To by bylo <ADJ>."             "That would be <ADJ>."
+;; "<NUM> let/roku zpět/zpátky"    "<NUM> years ago/back"
+"tři roky zpět"                 "three years ago"
+"pět let zpět"                  "five years ago"
+"většinou roku"                 "most of the year" ;; ???
+
+
+;; ============================================================
+#:section "Notes up to 2019-03, misc"
+
+#:translate adjective
+žadný                           "not any, none"
+zakázaný                        forbidden
+
+#:translate adverb
+méně                            less
+nakonec                         eventually
+
+#:translate inanimate-noun
+místnost                        room
+květiny                         flowers
+kousek                          piece
+vrah                            murderer
+nábytek                         furniture
+budova                          building
+
+#:translate regular-verb
+navidět                         see ;; ??
+
+#:translate phrase ;; adverb-phrase
+"ještě ne"                      "not yet"
+
+#:translate phrase
+"To je mi líto."                "I'm sorry. (sympathy, not apology)"
+
+
+;; ============================================================
+#:section "Notes up to 2019-03, minulý čas worksheet"
+
+#:translate adjective
+chytrý                          smart
+celý                            "whole, entire"
+horký                           hot
+
+#:translate adverb
+nakonec                         eventually
+spolu                           together
+venku                           outdoors
+
+#:translate inanimate-noun
+noviny                          news
+rodiče                          parents
+hry                             games
+
+#:translate regular-verb
+připravovat                     "prepare, cook"
+ležet                           "lie, rest"
+fotografovat                    "photograph, take photographs"
+
+#:translate noun-phrase
+"celá rodina"                   "the whole family"
+"horké kakao"                   "hot cocoa"
+"počítačové hry"                "computer games"
+
+#:translate verb-phrase
+"mít těžký týden"               "have a hard week"
+"dívat se"                      "watch"
+
+#:translate prepositional-phrase
+"na internetu"                  "on the internet"
+"na stole"                      "on the table"
+"na gauči"                      "on the couch"
+"v garaži"                      "in the garage" ;; ? in/into?
