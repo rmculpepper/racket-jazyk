@@ -767,6 +767,7 @@ učit				teach
 "ještě nemít"			"to not have yet"
 "datum narození"		"date of birth"
 "Kolik to stojí?"		"How much is it? (How much does it cost?)"
+"Jak to?"                       "How come?"
 
 #|
 ----------------------------------------
@@ -818,7 +819,8 @@ unavený			tired
 každý			"each, every"
 hlavní			main
 teplý			warm
-pravidelný		regular ; eg, wrt verbs
+pravidelný		regular ;; eg, wrt verbs
+společný                "common, shared, united"
 
 #:translate adverb
 kdy			when
@@ -835,6 +837,8 @@ zase			again
 proto			therefore
 potom			"then, after that"
 ;; rád, ráda, rádi		gladly ; more complicated ...
+odkdy                   "since when"
+dokdy                   "until when"
 
 ;; -- frequency
 vždycky			always
@@ -845,9 +849,10 @@ obvykle			usually
 někdy			sometimes
 nikdy			never ; (w/ "ne")
 malokdy			seldom
+denně                   daily
 
 #:translate conjunction
-až			until
+až			"not until" ;; FIXME?
 když			when
 proto			"and therefore"
 
@@ -869,6 +874,10 @@ seminář			seminar
 fotbal			football
 teplo			heat
 večeře			dinner
+měsíc			month
+týden			week
+rok                     year
+navštěva                visit
 
 #:translate regular-verb
 začínat			"start, begin" ; ???
@@ -883,6 +892,8 @@ snídat			"eat breakfast"
 poslouchat		listen
 obědvat			"eat lunch"
 cvičit			exercise
+vypadat                 look ;; like?
+umět                    "know how to"
 
 #:translate irregular-verb
 [#:e plavat plav plaval]	swim
@@ -891,6 +902,8 @@ cvičit			exercise
 ;; FIXME:
 ;; ?, žít			"live, reside"
 ;; zapomnět			forget ?
+[#:e přijít přijd přišel]       come ;; FIXME: šel/šla
+[#:e zvat zv zval]              invite
 
 #:translate verb-phrase
 "jde spát"			"go to sleep" ;; FIXME: inf
@@ -899,6 +912,7 @@ cvičit			exercise
 "dívat se na televizi"		"watch television"
 "cvičit aerobik"		"do aerobics"
 "žít spolu"			"live together"
+"omlouvat se"                   "apologize"
 
 #:translate prepositional-phrase
 "v jednu (hodinu)"			"at one o'clock"
@@ -912,6 +926,9 @@ cvičit			exercise
 "o víkendu"				"on the weekend"
 "na straně <NUM>"			"on page <NUM>"
 "na počítači"				"on the computer"
+"po svatbě"                             "after the wedding"
+"ve všední den"                         "on a weekday"
+"o víkendu"                             "on the weekend"
 
 #:translate phrase
 "Kdy je to?"				"When is it?"
@@ -922,6 +939,14 @@ cvičit			exercise
 "Hodí se ti to?"			"That works for you?"
 "ve všední den"				"everyday, on an ordinary day"
 "třikrat za tyden"			"three times per week"
+otevřeno                                open
+zavřeno                                 closed
+"Zvu tě na party."                      "I invite you to the party."
+"Třeba ...?"                            "How about ...?"
+"To přece umí každý!"                   "Everyone can do it!"
+"už od sedmi hodin"                     "already at 7 o'clock"
+
+;; TODO: p48
 
 #|
 ----------------------------------------
@@ -939,6 +964,7 @@ night		= noc		"at night"		= v noci
 
 
 
+;; ============================================================
 
 ;; ============================================================
 #:section "Notes circa 2018-10"
@@ -1026,8 +1052,6 @@ barva                           color
 místo                           place
 cesta                           "way, route"
 letadlo                         airplane
-měsíc                           month
-týden                           week
 Vánoce                          Christmas
 instrukce                       instructions
 
