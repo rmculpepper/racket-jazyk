@@ -215,11 +215,11 @@ na				"in, at" ;; FIXME
 "Odkud jste?"			"Where are you from?"
 "To je zajímavé."		"That is interesting."
 "Co děláte?"			"What do you do?"
-"Mějte se hezky."		_
-"Na shledanou."			"Goodbye. (Auf wiedersehen.)"
+"Mějte se hezky."		"Have a nice day." ;; "Have a good one?"
+"Na shledanou."			"Goodbye."
 "Co asi ... říkaji?"		"What do ... talk about?" ; ???
 "Měj se hezky."			"I had a nice time." ; ???
-"Promiň(te)."			"Sorry."
+"Promiňte."			"Sorry."
 "To nic."			"It's nothing. (No harm.)"
 "Není zač."			"No problem. (You're welcome.) (De nada.)"
 "Kdo je to?"			"Who is that?"
@@ -348,7 +348,7 @@ protože			because
 
 #:translate inanimate-noun
 nádraží			"train station"		; n
-náměstí			"(town) square"		; n
+náměstí			"town square"		; n
 nemocnice		hospital
 letiště			airport			; n
 zastávka		station
@@ -381,10 +381,10 @@ knedlík			dumpling
 pivo			beer
 adresa			address
 pravda			truth
-jmeno			"(given) name"
+jmeno			"given name"
 přímení			surname			; ?
 země			country
-klum			club
+klub			club
 práce			work
 
 #:translate animate-noun
@@ -413,7 +413,7 @@ jako			as
 #:translate prepositional-phrase
 "na výlet"			"on a trip"
 "v Praze"			"in Prague"
-"ve firmě"			"at (the) firm"
+"ve firmě"			"at the firm"
 "jako asistentka"		"as an assistent"
 "v centru"			"in the center"
 "v restauraci"			"at the restaurant"
@@ -436,7 +436,7 @@ jako			as
 "Učím se česky."		"I am learning Czech."
 "Jsem rád(a), že ..."		"I am glad that ..."
 "Líbí se mi ..." 		"I like ..."
-"Chutná mi ..."			"I like (to eat/drink) ..."
+"Chutná mi ..."			"I like (to eat or drink) ..."
 
 #|
 ----------------------------------------
@@ -491,13 +491,13 @@ okurkový		cucumber
 zelený			green
 ovocný			fruity
 pomerančový		orange
-světlý			light
+světlý			"light (in color)"
 červený			red
 bílý			white
 zvědavý			curious
 spokojený		satisfied
 výborný			excellent
-zdravý			_
+zdravý			healthy
 nějaký			somewhat ; (?? not adverb! ??)
 nemocný			sick
 hodný			"good (kind?)"
@@ -562,7 +562,7 @@ když			when
 
 #:translate regular-verb
 myslit			think
-řikat			say
+říkat			say
 pozvat			invite
 
 #:translate irregular-verb
@@ -757,11 +757,11 @@ učit				teach
 "Je mi <NUM> let."		"I am <NUM> years old. (I have <NUM> years.)"
 "Kolik vám je?"			"How old are you?"
 "Učím čeština."			"I teach Czech (the Czech language)."
-"Je v domácnosti."		_
+;;"Je v domácnosti."		_
 "Je prostě fantastický!"	"He's just great!"
 "ještě nemít"			"to not have yet"
 "datum narození"		"date of birth"
-"Kolik to stojí?"		"How much is it?"
+"Kolik to stojí?"		"How much is it? (How much does it cost?)"
 
 #|
 ----------------------------------------
@@ -813,6 +813,7 @@ unavený			tired
 každý			"each, every"
 hlavní			main
 teplý			warm
+pravidelný		regular ; eg, wrt verbs
 
 #:translate adverb
 kdy			when
@@ -820,7 +821,6 @@ třeba			perhaps
 zítra			tomorrow
 dlouho			"long, for a long time"
 přitom			"while doing so"
-pravidelný		regular ; eg, wrt verbs
 naopak	   		"on the contrary, conversely"
 brzy			"soon, early"
 strašně			terribly
