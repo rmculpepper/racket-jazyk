@@ -547,7 +547,7 @@ něco			anything
 cena			price
 dort	    		cake
 cukr			sugar
-mlélko			milk
+mléko			milk
 peníze			money
 čas			time
 nálada			mood
@@ -890,7 +890,7 @@ cvičit			exercise
 #:translate verb-phrase
 "jde spát"			"go to sleep" ;; FIXME: inf
 "poslouchat hudbu"		"listen to music"
-"hrat tenis"			"play tenis"
+"hrat tenis"			"play tennis"
 "dívat se na televizi"		"watch television"
 "cvičit aerobik"		"do aerobics"
 "žít spolu"			"live together"
