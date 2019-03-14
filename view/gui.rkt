@@ -348,7 +348,7 @@
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
 
-(define (go jazyk)
+(define (run-gui jazyk)
   (run (list->vector (take (shuffle (jazyk->qas jazyk)) 50))))
 
 ;; ============================================================

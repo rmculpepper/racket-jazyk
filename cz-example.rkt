@@ -3,6 +3,10 @@
 #:definitions
 (require "language/cz.rkt")
 
+(module* main racket/base
+  (require (submod "..") "view/gui.rkt")
+  (run-gui jazyk))
+
 ;; ============================================================
 #:section "Prelude"
 
@@ -218,7 +222,6 @@ na				"in, at" ;; FIXME
 "Mějte se hezky."		"Have a nice day." ;; "Have a good one?"
 "Na shledanou."			"Goodbye."
 "Co asi ... říkaji?"		"What do ... talk about?" ; ???
-"Měj se hezky."			"I had a nice time." ; ???
 "Promiňte."			"Sorry."
 "To nic."			"It's nothing. (No harm.)"
 "Není zač."			"No problem. (You're welcome.) (De nada.)"
