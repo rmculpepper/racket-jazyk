@@ -38,7 +38,9 @@
 ;; - ....
 (struct word (key) #:transparent)
 
-;; Additionally, an Element can have a GrammarType property.
+;; Element variants have additional properties.
+
+;; prop:grammar : Element property containing GrammarType
 (define-values (prop:grammar prop:grammar? prop:grammar-ref)
   (make-struct-type-property 'grammar))
 
@@ -61,6 +63,15 @@
 (define (elem-conj? elem) (eq? (grammar-type elem) 'conj))
 (define (elem-prep? elem) (eq? (grammar-type elem) 'prep))
 
+;; prop:pretty-type : Element property containing String
+;; Defaults to object-name (ie, name of struct type).
+(define-values (prop:pretty-type prop:pretty-type? prop:pretty-type-ref)
+  (make-struct-type-property 'pretty-type))
+
+(define (pretty-type elem)
+  (cond [(prop:pretty-type? elem) (prop:pretty-type-ref elem)]
+        [else (object-name elem)]))
+
 ;; A Dictionary is Hash[String => (Listof Element)]
 (define (make-dictionary elems [base (hash)])
   (for/fold ([d base]) ([elem (in-list elems)] #:when (word? elem))
@@ -76,19 +87,32 @@
                 elem))]
         [else #f]))
 
-(struct noun word () #:transparent #:property prop:grammar 'noun)
-(struct pronoun word () #:transparent #:property prop:grammar 'noun)
-(struct verb word () #:transparent #:property prop:grammar 'verb)
-(struct adv  word () #:transparent #:property prop:grammar 'adv)
-(struct adj  word () #:transparent #:property prop:grammar 'adj)
-(struct conj word () #:transparent #:property prop:grammar 'conj)
-(struct prep word () #:transparent #:property prop:grammar 'prep)
+(struct noun word () #:transparent
+  #:property prop:grammar 'noun #:property prop:pretty-type "noun")
+(struct pronoun word () #:transparent
+  #:property prop:grammar 'noun #:property prop:pretty-type "pronoun")
+(struct verb word () #:transparent
+  #:property prop:grammar 'verb #:property prop:pretty-type "verb")
+(struct adv  word () #:transparent
+  #:property prop:grammar 'adv #:property prop:pretty-type "adverb")
+(struct adj  word () #:transparent
+  #:property prop:grammar 'adj #:property prop:pretty-type "adjective")
+(struct conj word () #:transparent
+  #:property prop:grammar 'conj #:property prop:pretty-type "conjunction")
+(struct prep word () #:transparent
+  #:property prop:grammar 'prep #:property prop:pretty-type "preposition")
 
-(struct phrase (words) #:transparent)
-(struct noun-phrase phrase () #:transparent #:property prop:grammar 'noun)
-(struct verb-phrase phrase () #:transparent #:property prop:grammar 'verb)
-(struct prep-phrase phrase () #:transparent #:property prop:grammar 'adv) ;; FIXME?
-(struct imperative-phrase phrase () #:transparent)
+(struct phrase (words) #:transparent
+  #:property prop:pretty-type "phrase or sentence")
+(struct noun-phrase phrase () #:transparent
+  #:property prop:grammar 'noun #:property prop:pretty-type "noun phrase")
+(struct verb-phrase phrase () #:transparent
+  #:property prop:grammar 'verb #:property prop:pretty-type "verb phrase")
+(struct prep-phrase phrase () #:transparent
+  #:property prop:grammar 'adv ;; FIXME?
+  #:property prop:pretty-type "prepositional phrase")
+(struct imperative-phrase phrase () #:transparent
+  #:property prop:pretty-type "imperative phrase")
 
 ;; ============================================================
 

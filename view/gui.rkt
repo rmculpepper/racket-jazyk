@@ -230,6 +230,9 @@
 (define (tl p) (colorize p "lightblue"))
 (define (tlt s) (tl (if s (it s) (blank))))
 
+(define (c:cz p) (colorize p "darkblue"))
+(define (c:en p) (colorize p "darkred"))
+
 ;; ============================================================
 
 (define QA-base%
@@ -273,13 +276,16 @@
 
 (define en=>cz%
   (class QA-base%
-    (init-field en-phrase cz-phrase)
+    (init-field en-phrase cz-phrase [pretty-type #f])
     (super-new)
     (define/override (get-q-pict hint)
-      (panel (para "Jak se řekne ...?" (hint 1 (tlt " How do you say ...?")))
-             (para en-phrase)))
+      (panel (para "Jak se řekne ...?"
+                   (hint 1 (tlt " How do you say ...?")))
+             (c:en (para en-phrase))
+             (blank)
+             (and pretty-type (para (it (format "(~a)" pretty-type))))))
     (define/override (get-a-pict hint)
-      (panel (para cz-phrase)))
+      (panel (c:cz (para cz-phrase))))
     (define/override (get-q-audio)
       (list (cz-audio "Jak se řekne?") (en-audio en-phrase)))
     (define/override (get-a-audio)
@@ -287,13 +293,15 @@
 
 (define cz=>en%
   (class QA-base%
-    (init-field cz-phrase en-phrase)
+    (init-field cz-phrase en-phrase [pretty-type #f])
     (super-new)
     (define/override (get-q-pict hint)
       (panel (para "Co znamená ...?" (hint 1 (tlt " What does ... mean?")))
-             (para cz-phrase)))
+             (c:cz (para cz-phrase))
+             (blank)
+             (and pretty-type (para (it (format "(~a)" pretty-type))))))
     (define/override (get-a-pict hint)
-      (panel (para en-phrase)))
+      (panel (c:en (para en-phrase))))
     (define/override (get-q-audio)
       (list (cz-audio "Co znamená?") (cz-audio cz-phrase)))
     (define/override (get-a-audio)
@@ -304,12 +312,12 @@
     (init-field infinitive subject verb [inf-tl #f])
     (super-new)
     (define/override (get-q-pict hint)
-      (panel (para "Konjugujte" (it infinitive)
+      (panel (para "Konjugujte" (c:cz (it infinitive))
                    (blank 5)
                    (hint 1 (tlt (and inf-tl (format "Conjugate 'to ~a'" inf-tl)))))
-             (para (t subject) " ...")))
+             (para (c:cz (t subject)) " ...")))
     (define/override (get-a-pict hint)
-      (para (format "~a ~a" subject verb)))
+      (c:cz (para (format "~a ~a" subject verb))))
     (define/override (get-q-audio)
       (list (cz-audio (format "Konjugujte ... ~a" infinitive))
             1/3 (cz-audio subject)))
@@ -318,15 +326,15 @@
 
 ;; ----------------------------------------
 
-(define (toCZ en-phrase cz-phrase)
-  (new en=>cz% (en-phrase en-phrase) (cz-phrase cz-phrase)))
+(define (toCZ en-phrase cz-phrase pretty-type)
+  (new en=>cz% (en-phrase en-phrase) (cz-phrase cz-phrase) (pretty-type pretty-type)))
 
-(define (toEN cz-phrase en-phrase)
-  (new cz=>en% (cz-phrase cz-phrase) (en-phrase en-phrase)))
+(define (toEN cz-phrase en-phrase pretty-type)
+  (new cz=>en% (cz-phrase cz-phrase) (en-phrase en-phrase) (pretty-type pretty-type)))
 
-(define (ENCZ en-phrase cz-phrase)
-  (list (toCZ en-phrase cz-phrase)
-        (toEN cz-phrase en-phrase)))
+(define (ENCZ en-phrase cz-phrase pretty-type)
+  (list (toCZ en-phrase cz-phrase pretty-type)
+        (toEN cz-phrase en-phrase pretty-type)))
 
 (define (Conj inf subj verb #:vtl [inf-tl #f])
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
@@ -336,9 +344,9 @@
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
-     (match (translation-lhs e)
-       [(word cz) (ENCZ en cz)]
-       [(phrase cz) (ENCZ en cz)]))))
+     (match lhs
+       [(word cz) (ENCZ en cz (pretty-type lhs))]
+       [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
 
 (define (go jazyk)
   (run (list->vector (take (shuffle (jazyk->qas jazyk)) 50))))

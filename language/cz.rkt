@@ -29,9 +29,9 @@
 
 (define (noun-guess-decl cz g) ;; p28
   ;; consonant w/o hook: [bcdfghjklmnpqrstvwxz]
-  ;; consonant w/  hook: [čřšžťď]
+  ;; consonant w/  hook: [čňřšžťď]
   (cond [(regexp-match #rx"tel$" cz) 2]
-        [(regexp-match #rx"[čřšžťďeěcj]$" cz) 2]
+        [(regexp-match #rx"[čňřšžťďeěcj]$" cz) 2]
         [(and (memq g '(ma mi)) (regexp-match? #rx"[bcdfghjklmnpqrstvwxz]$" cz)) 1]
         [(and (memq g '(ma))    (regexp-match? #rx"[a]$" cz)) 3]
         [(and (memq g '(f))     (regexp-match? #rx"[a]$" cz)) 1]
