@@ -196,8 +196,31 @@
 ;; ============================================================
 ;; Slideshow config and helpers
 
-(current-font-size 24)
+(current-font-size 28)
 (current-para-width (- WIDTH 50))
+
+;; Serif:
+;; -- BAD: Book Antiqua, Bookman Old Style, Garamond, Goudy Old Style, Lucida Bright
+;; (current-main-font "Cambria") ;; ok
+;; (current-main-font "Century") ;; ok
+;; (current-main-font "Constantia") ;; ok
+;; (current-main-font "Palatino")  ;; good
+;; (current-main-font "Palatino Linotype")  ;; good
+
+;; Sans serif:
+;; -- BAD: Century Gothic, Gill Sans, Optima
+;; (current-main-font "Candara") ;; ok
+;; (current-main-font "Corbel") ;; ok, sans
+;; (current-main-font "Futura") ;; ok, sans
+;; (current-main-font "Geneva") ;; good
+;; (current-main-font "Helvetica") ;; ok
+;; (current-main-font "Lucida Sans Unicode") ;; good
+;; (current-main-font "Tahoma") ;; good!
+(current-main-font "Verdana") ;; good!!
+
+;; Monospaced:
+;; (current-main-font "Consolas") ;; ok -- fixed width
+
 
 (define (panel . args)
   (apply vc-append 10 (filter values (flatten args))))
