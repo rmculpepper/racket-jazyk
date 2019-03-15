@@ -40,7 +40,7 @@
 
   (define-syntax-class elem #:opaque
     #:attributes (ast) #:literals (unquote)
-    (pattern (~and (unquote e:expr) ~!)
+    (pattern (unquote ~! e:expr)
              #:with ast #'e)
     (pattern t:term
              #:with ast #'(convert (quote t))))
@@ -56,6 +56,6 @@
         (define jazyk (append s.ast ...)))]))
 
 (define (convert x)
-  (cond [(symbol? x) (symbol->string x)]
-        [(list? x) (map convert x)]
+  (cond [(pair? x) (cons (convert (car x)) (convert (cdr x)))]
+        [(symbol? x) (symbol->string x)]
         [else x]))
