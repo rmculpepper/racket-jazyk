@@ -1,5 +1,6 @@
 #lang racket/base
 (require racket/list
+         racket/class
          racket/string)
 (provide (all-defined-out))
 
@@ -102,42 +103,6 @@
 
 ;; ============================================================
 
-;; A Grammar stores information about a single language, such as a
-;; mapping from (lemma,GrammarType) to Element.
-
-;; A Grammar is (grammar Hash[String => (Listof Element)])
-(struct grammar (h) #:transparent)
-
-;; make-grammar : (Listof Element) -> Dictionary
-(define (make-grammar elems)
-  (define (hash-push h k v) (hash-set h k (cons v (hash-ref h k null))))
-  (grammar
-   (for/fold ([h (hash)]) ([elem (in-list elems)])
-     (cond [(word? elem) (hash-push h (word-key elem) elem)]
-           [(phrase? elem) (hash-push h (phrase-words elem) elem)]
-           [else h]))))
-
-;; grammar-ref : Grammar String Symbol -> (U Element #f)
-(define (grammar-ref d key gtype)
-  (cond [(hash-ref (grammar-h d) key #f)
-         => (lambda (elems)
-              (for/first ([elem (in-list elems)]
-                          #:when (equal? (grammar-type elem) gtype))
-                elem))]
-        [else #f]))
-
-;; jazyk->grammar : (Listof Section) -> Grammar
-(define (jazyk->grammar sections)
-  (make-grammar
-   (flatten
-    (for*/list ([s (in-list sections)]
-                [e (in-list (section-entries s))])
-      (cond [(translation? e) (translation-lhs e)]
-            [(or (word? e) (phrase? e)) e]
-            [else '()])))))
-
-;; ============================================================
-
 (define (join . xs) (string-join xs " "))
 
 ;; A VerbPerson is one of '1s, '2s, '3s, '1p, '2p, '3p.
@@ -157,3 +122,66 @@
     [(3p) "3rd-person plural"]
     [(ppart) "past participle"]
     [else 'describe-verb-form "bad verb form: ~s" vf]))
+
+;; ============================================================
+
+(define grammar<%>
+  (interface ()
+    lookup                 ;; String GrammarType -> Element/#f
+
+    ordinal                ;; Nat -> String
+
+    conjugate-verb         ;; Verb VerbForm -> String/#f
+    conjugate-verb-phrase  ;; VerbPhrase VerbForm -> String/#f
+
+    words->phrase-string   ;; (Listof String) -> String
+    ))
+
+(define grammar-base%
+  (class* object% (grammar<%>)
+    (init jazyk)
+    (field [h (make-hash)]) ;; Hash[String => (Listof Element)]
+    (super-new)
+
+    (let loop ([x jazyk])
+      (define (hash-cons! h k v)
+        (hash-set! h k (cons v (hash-ref h k null))))
+      (cond [(section? x) (loop (section-entries x))]
+            [(list? x) (for-each loop x)]
+            [(translation? x) (loop (translation-lhs x))]
+            [(word? x) (hash-cons! h (word-key x) x)]
+            [(phrase? x) (hash-cons! h (phrase-words x) x)]))
+
+    ;; ----------------------------------------
+
+    (define/public (lookup key gtype)
+      (cond [(hash-ref h key #f)
+             => (lambda (elems)
+                  (for/first ([elem (in-list elems)]
+                              #:when (equal? (grammar-type elem) gtype))
+                    elem))]
+            [else #f]))
+
+    ;; ----------------------------------------
+
+    (define/public (ordinal n)
+      (format "~s" n))
+
+    ;; ----------------------------------------
+
+    (define/public (conjugate-verb v vf) #f)
+
+    (define/public (conjugate-verb-phrase vp vf)
+      (define words (string-split (phrase-words vp)))
+      ;; Assume the verb is the first word in the phrase; FIXME: generalize
+      (cond [(lookup (car words) 'verb)
+             => (lambda (v)
+                  (cond [(conjugate-verb v vf)
+                         => (lambda (v*)
+                              (words->phrase-string (cons v* (cdr words))))]
+                        [else #f]))]
+            [else #f]))
+
+    (define/public (words->phrase-string words)
+      (string-join words " "))
+    ))

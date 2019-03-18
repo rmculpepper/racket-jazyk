@@ -1,5 +1,6 @@
 #lang racket/base
 (require racket/match
+         racket/class
          "base.rkt")
 (provide (all-defined-out))
 
@@ -34,13 +35,6 @@
   (cond [(reg-verb? v) (reg-verb-ppart v)]
         [(irr-verb? v) (irr-verb-ppart v)]))
 
-(define (verb-form v vf)
-  (case vf
-    [(inf) (verb-inf v)]
-    [(3s) (conjugate v 'present vf)]
-    [(1s 2s 1p 2p 3p) (join (person->pronoun vf) (conjugate v 'present vf))]
-    [(ppart) (verb-ppart v)]))
-
 (define (conjugate v tense p)
   (case tense
     [(present)
@@ -74,3 +68,18 @@
     [(1p) "we"]
     [(2p) "you"]
     [(3p) "they"]))
+
+;; ============================================================
+
+(define en-grammar%
+  (class grammar-base%
+    (super-new)
+
+    (define/override (conjugate-verb v vf)
+      (case vf
+        [(inf) (join "to" (verb-inf v))]
+        [(3s) (conjugate v 'present vf)]
+        [(1s 2s 1p 2p 3p) (join (person->pronoun vf) (conjugate v 'present vf))]
+        [(ppart) (verb-ppart v)]
+        [else #f]))
+    ))

@@ -344,38 +344,31 @@
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
 
 (define (jazyk->qas sections
-                    #:verb-forms [verb-forms '(inf 1s 2s 3s 1p 2p 3p)])
-  (define cz:grammar (jazyk->grammar sections))
+                    #:verb-forms verb-forms)
+  (define cz:grammar (new cz:cz-grammar% (jazyk sections)))
   (flatten
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
      (match lhs
        [(verb _)
-        (define en-v (grammar-ref en:jgrammar en 'verb))
+        (define en-v (send en:grammar lookup en 'verb))
         (for/list ([vf (in-list verb-forms)])
-          (define cz (cz:verb-form lhs vf))
-          (define en* (and en-v (en:verb-form en-v vf)))
-          (cond [(and cz en*)
-                 (list (toCZ en* cz (describe-verb-form vf))
-                       (toEN cz en* "verb"))]
+          (define cz* (send cz:grammar conjugate-verb lhs vf))
+          (define en* (and en-v (send en:grammar conjugate-verb en-v vf)))
+          (cond [(and cz* en*)
+                 (list (toCZ en* cz* (describe-verb-form vf))
+                       (toEN cz* en* "verb"))]
                 [else null]))]
        [(verb-phrase cz-str)
-        (define cz-words (string-split cz-str))
-        (define en-words (string-split en))
-        ;; Assume the verb is the first word in the phrase (on both CZ and EN sides).
-        ;; FIXME: generalize?
-        (define cz-v (grammar-ref cz:grammar (car cz-words) 'verb))
-        (define en-v (grammar-ref en:jgrammar (car en-words) 'verb))
-        (cond [(and cz-v en-v (member "se" cz-words))
-               (for/list ([vf (in-list verb-forms)])
-                 (define cz-v* (cz:verb-form cz-v vf))
-                 (define en-v* (en:verb-form en-v vf))
-                 (define cz* (cz:adjust/2nd-position (cons cz-v* (cdr cz-words))))
-                 (define en* (string-join (cons en-v* (cdr en-words)) " "))
+        (for/list ([vf (in-list verb-forms)])
+          (define cz* (send cz:grammar conjugate-verb-phrase lhs vf))
+          (define en* (send en:grammar conjugate-verb-phrase (verb-phrase en) vf))
+          (cond [(and cz* en*)
                  (list (toCZ en* cz* (describe-verb-form vf))
-                       (toEN cz* en* "verb phrase")))]
-              [else #;(ENCZ en cz-str (pretty-type lhs)) null])]
+                       (toEN cz* en* "verb phrase"))]
+                [(eq? vf 'inf) (ENCZ en cz-str (pretty-type lhs))]
+                [else null]))]
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]
        [_ null]))))

@@ -1,5 +1,6 @@
 #lang racket/base
 (require racket/match
+         racket/class
          racket/list
          racket/string
          "base.rkt")
@@ -141,13 +142,6 @@
      (irr-verb inf (vector 1s 2s 3s 1p 2p 3p) ppart)]
     [_ (error 'irregular-verb "unknown form: ~e" cz)]))
 
-(define (verb-form v vf)
-  (case vf
-    [(inf) (verb-inf v)]
-    [(1s 2s 3s 1p 2p 3p) (conjugate/present v vf)]
-    [(ppart) (verb-ppart v)]
-    [else #f]))
-
 (define (conjugate/present v p)
   (match v
     [(verb/a   _ stem _) (string-append stem (regular-verb-ending 'a p))]
@@ -232,12 +226,27 @@
 
 ;; ============================================================
 
-(define (adjust/2nd-position words)
-  ;; FIXME: doesn't work if 1st position is multi-word phrase
-  ;; FIXME: more of p134; problem: grammar-dependent
-  (define (insert-2nd x xs) (list* (car xs) x (cdr xs)))
-  (string-join
-   (cond [(for/or ([word (in-list words)] #:when (member word '("se" "si"))) word)
-          => (lambda (move) (insert-2nd move (remove move words)))]
-         [else words])
-   " "))
+(define cz-grammar%
+  (class grammar-base%
+    (super-new)
+
+    (define/override (conjugate-verb v vf)
+      (case vf
+        [(inf) (verb-inf v)]
+        [(1s 2s 3s 1p 2p 3p) (conjugate/present v vf)]
+        [(ppart) (verb-ppart v)]
+        [else #f]))
+
+    (define/override (words->phrase-string words)
+      ;; Adjust words for 2nd-position rules
+      ;; FIXME: doesn't work if 1st position is multi-word phrase
+      ;; FIXME: more of p134; problem: grammar-dependent!
+      (define (insert-2nd x xs) (list* (car xs) x (cdr xs)))
+      (string-join
+       (cond [(for/or ([word (in-list words)] #:when (member word '("se" "si"))) word)
+              => (lambda (move) (insert-2nd move (remove move words)))]
+             [else words])))
+
+    (define/override (ordinal n)
+      (and (<= 0 n) (< n #e1e6) (nat->cz n)))
+    ))
