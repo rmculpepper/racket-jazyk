@@ -34,6 +34,12 @@
   (cond [(reg-verb? v) (reg-verb-ppart v)]
         [(irr-verb? v) (irr-verb-ppart v)]))
 
+(define (verb-form v vf)
+  (case vf
+    [(inf) (verb-inf v)]
+    [(1s 2s 3s 1p 2p 3p) (conjugate v 'present vf)]
+    [(ppart) (verb-ppart v)]))
+
 (define (conjugate v tense p)
   (case tense
     [(present)

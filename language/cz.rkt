@@ -111,6 +111,13 @@
 (struct verb/e  reg-verb () #:transparent)
 (struct irr-verb verb (forms ppart) #:transparent)
 
+(define (verb-inf v)
+  (word-key v))
+(define (verb-ppart v)
+  (match v
+    [(reg-verb _ _ ppart) ppart]
+    [(irr-verb _ _ ppart) ppart]))
+
 ;; regular-verb : String -> Element
 (define (regular-verb cz)
   (cond [(regexp-match #rx"^(.*)ovat$" cz)
@@ -134,9 +141,12 @@
      (irr-verb inf (vector 1s 2s 3s 1p 2p 3p) ppart)]
     [_ (error 'irregular-verb "unknown form: ~e" cz)]))
 
-(define (conjugate v tense p)
-  (case tense
-    [(present) (conjugate/present v p)]))
+(define (verb-form v vf)
+  (case vf
+    [(inf) (verb-inf v)]
+    [(1s 2s 3s 1p 2p 3p) (conjugate/present v vf)]
+    [(ppart) (verb-ppart v)]
+    [else #f]))
 
 (define (conjugate/present v p)
   (match v

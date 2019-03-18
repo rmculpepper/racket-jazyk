@@ -1,5 +1,6 @@
 #lang racket/base
-(require racket/string)
+(require racket/list
+         racket/string)
 (provide (all-defined-out))
 
 ;; ------------------------------------------------------------
@@ -36,7 +37,6 @@
 ;; - String
 ;; - (word String) or subtype
 ;; - ....
-(struct word (key) #:transparent)
 
 ;; Element variants have additional properties.
 
@@ -72,21 +72,7 @@
   (cond [(prop:pretty-type? elem) (prop:pretty-type-ref elem)]
         [else (object-name elem)]))
 
-;; A Dictionary is Hash[String => (Listof Element)]
-(define (make-dictionary elems [base (hash)])
-  (for/fold ([d base]) ([elem (in-list elems)] #:when (word? elem))
-    (define key (word-key elem))
-    (hash-set d key (cons elem (hash-ref d key null)))))
-
-;; dictionary-ref : Dictionary String Symbol -> (U Element #f)
-(define (dictionary-ref d key gtype)
-  (cond [(hash-ref d key #f)
-         => (lambda (elems)
-              (for/first ([elem (in-list elems)]
-                          #:when (equal? (grammar-type elem) gtype))
-                elem))]
-        [else #f]))
-
+(struct word (key) #:transparent)
 (struct noun word () #:transparent
   #:property prop:grammar 'noun #:property prop:pretty-type "noun")
 (struct pronoun word () #:transparent
@@ -116,4 +102,56 @@
 
 ;; ============================================================
 
+;; A Grammar stores information about a single language, such as a
+;; mapping from (lemma,GrammarType) to Element.
+
+;; A Grammar is (grammar Hash[String => (Listof Element)])
+(struct grammar (h) #:transparent)
+
+;; make-grammar : (Listof Element) -> Dictionary
+(define (make-grammar elems)
+  (define (hash-push h k v) (hash-set h k (cons v (hash-ref h k null))))
+  (grammar
+   (for/fold ([h (hash)]) ([elem (in-list elems)])
+     (cond [(word? elem) (hash-push h (word-key elem) elem)]
+           [(phrase? elem) (hash-push h (phrase-words elem) elem)]
+           [else h]))))
+
+;; grammar-ref : Grammar String Symbol -> (U Element #f)
+(define (grammar-ref d key gtype)
+  (cond [(hash-ref d key #f)
+         => (lambda (elems)
+              (for/first ([elem (in-list elems)]
+                          #:when (equal? (grammar-type elem) gtype))
+                elem))]
+        [else #f]))
+
+;; jazyk->grammar : (Listof Section) -> Grammar
+(define (jazyk->grammar sections)
+  (make-grammar
+   (flatten
+    (for*/list ([s (in-list sections)]
+                [e (in-list (section-entries s))])
+      (cond [(translation? e) (translation-lhs e)]
+            [(or (word? e) (phrase? e)) e]
+            [else '()])))))
+
+;; ============================================================
+
 (define (join . xs) (string-join xs " "))
+
+;; A VerbPerson is one of '1s, '2s, '3s, '1p, '2p, '3p.
+;; A VerbForm is 'inf, 'ppart, or a VerbPerson (means present tense).
+
+(define (describe-verb-form vf)
+  (case vf
+    [(inf) "infinitive"]
+    [(1s) "1st-person singular"]
+    [(2s) "2nd-person singular"]
+    [(3s) "3rd-person singular"]
+    [(1p) "1st-person plural"]
+    [(2p) "2nd-person plural"]
+    [(3p) "3rd-person plural"]
+    [(ppart) "past participle"]
+    [else 'describe-verb-form "bad verb form: ~s" vf]))
+
