@@ -46,10 +46,9 @@
   (syntax-parser
     [(_ s:section ...)
      #'(#%plain-module-begin
-        (provide jazyk jgrammar)
+        (provide jazyk)
         s.def ... ...
         (define jazyk (append s.ast ...))
-        (define jgrammar (jazyk->grammar jazyk))
         (module* main #f
           (#%plain-module-begin
            (require (submod jazyk/view/gui run))
