@@ -162,7 +162,7 @@
 (define (regular-verb-endings verb-type)
   (case verb-type
     [(a)  '#("ám"  "áš"   "á"   "áme"   "áte"   "ají")]
-    [(i)  '#("ím"  "íś"   "í"   "íme"   "íte"   "í")]
+    [(i)  '#("ím"  "íš"   "í"   "íme"   "íte"   "í")]
     [(uj) '#("uju" "uješ" "uje" "ujeme" "ujete" "ujou")]
     [(e)  '#("u"   "eš"   "e"   "eme"   "ete"   "ou")]))
 

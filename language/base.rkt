@@ -143,6 +143,9 @@
 ;; A VerbPerson is one of '1s, '2s, '3s, '1p, '2p, '3p.
 ;; A VerbForm is 'inf, 'ppart, or a VerbPerson (means present tense).
 
+(define (verb-form? x)
+  (and (memq x '(inf 1s 2s 3s 1p 2p 3p ppart)) #t))
+
 (define (describe-verb-form vf)
   (case vf
     [(inf) "infinitive"]

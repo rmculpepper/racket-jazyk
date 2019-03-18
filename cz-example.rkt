@@ -530,12 +530,12 @@ když			when
 #:translate regular-verb
 myslit			think
 říkat			say
-pozvat			invite
 
 #:translate irregular-verb
 [#:e čist čt četl]	read
 [#:e pít pij pil]	drink
 [#:irr chtít chci chseš chce chceme chcete chtějí chtěl]	want
+[#:e pozvat pozv pozval] invite
 ;; FIXME:
 ;; chtěl/chtěla	  	"would like" -- conditional? (p29)
 ;; ?, pomoct		help

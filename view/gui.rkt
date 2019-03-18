@@ -355,7 +355,9 @@
           (define cz (cz:verb-form lhs vf))
           (define env (grammar-ref en:jgrammar en 'verb))
           (define en* (and env (en:verb-form env vf)))
-          (cond [(and cz en*) (ENCZ en* cz (describe-verb-form vf))]
+          (cond [(and cz en*)
+                 (list (toCZ en* cz (describe-verb-form vf))
+                       (toEN cz en* "verb"))]
                 [else null]))]
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
@@ -393,6 +395,7 @@
     (define audio? #t)
     (define shuffle? #t)
     (define ncards 50)
+    (define verb-forms '(inf 1s 2s 3s 1p 2p 3p ppart))
 
     (command-line
      #:argv argv
@@ -410,9 +413,15 @@
         (unless (exact-nonnegative-integer? n)
           (fatal "expected nonnegative integer for number of cards, given: ~e" number-of-cards))
         (set! ncards n))]
+     [("--verb-forms")
+      verb-form-list
+      "Include the given verb forms."
+      (let ([vfs (map string->symbol (string-split verb-form-list ","))])
+        (for ([vf (in-list vfs)]) (unless (verb-form? vf) (fatal "expected verb form, given: ~s" vf)))
+        (set! verb-forms vfs))]
      #:args ()
      (parameterize ((current-command-line-arguments (vector)))
-       (let* ([qas (jazyk->qas jazyk)]
+       (let* ([qas (jazyk->qas jazyk #:verb-forms verb-forms)]
               [qas (if shuffle? (shuffle qas) qas)])
          (run-gui (list->vector (take qas (min ncards (length qas))))
                   #:audio? audio?))))))
