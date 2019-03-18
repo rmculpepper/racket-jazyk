@@ -3,10 +3,6 @@
 #:definitions
 (require "language/cz.rkt")
 
-(module* main racket/base
-  (require (submod "..") "view/gui.rkt")
-  (run-gui jazyk))
-
 ;; ============================================================
 #:section "Prelude"
 

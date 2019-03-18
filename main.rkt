@@ -11,11 +11,6 @@
 
 (begin-for-syntax
 
-  (define-syntax-class term #:opaque
-    (pattern _:expr))
-
-  ;; ----
-
   (define-splicing-syntax-class section
     #:attributes ([def 1] ast)
     (pattern (~seq #:definitions d:expr ...)
@@ -42,7 +37,7 @@
     #:attributes (ast) #:literals (unquote)
     (pattern (unquote ~! e:expr)
              #:with ast #'e)
-    (pattern t:term
+    (pattern t:expr  ;; any other non-keyword term
              #:with ast #'(convert (quote t))))
 
   )
@@ -53,7 +48,11 @@
      #'(#%plain-module-begin
         (provide jazyk)
         s.def ... ...
-        (define jazyk (append s.ast ...)))]))
+        (define jazyk (append s.ast ...))
+        (module* main #f
+          (#%plain-module-begin
+           (require jazyk/view/gui)
+           (run-gui jazyk))))]))
 
 (define (convert x)
   (cond [(pair? x) (cons (convert (car x)) (convert (cdr x)))]
