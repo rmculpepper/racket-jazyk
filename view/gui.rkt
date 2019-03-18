@@ -345,22 +345,49 @@
 
 (define (jazyk->qas sections
                     #:verb-forms [verb-forms '(inf 1s 2s 3s 1p 2p 3p)])
+  (define cz:grammar (jazyk->grammar sections))
   (flatten
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
      (match lhs
        [(verb _)
+        (define en-v (grammar-ref en:jgrammar en 'verb))
         (for/list ([vf (in-list verb-forms)])
           (define cz (cz:verb-form lhs vf))
-          (define env (grammar-ref en:jgrammar en 'verb))
-          (define en* (and env (en:verb-form env vf)))
+          (define en* (and en-v (en:verb-form en-v vf)))
           (cond [(and cz en*)
                  (list (toCZ en* cz (describe-verb-form vf))
                        (toEN cz en* "verb"))]
                 [else null]))]
+       [(verb-phrase cz-str)
+        (define cz-words (string-split cz-str))
+        (define en-words (string-split en))
+        ;; Assume the verb is the first word in the phrase (on both CZ and EN sides).
+        ;; FIXME: generalize?
+        (define cz-v (grammar-ref cz:grammar (car cz-words) 'verb))
+        (define en-v (grammar-ref en:jgrammar (car en-words) 'verb))
+        (cond [(and cz-v en-v (member "se" cz-words))
+               (for/list ([vf (in-list verb-forms)])
+                 (define cz-v* (cz:verb-form cz-v vf))
+                 (define en-v* (en:verb-form en-v vf))
+                 (define cz* (adjust/2nd-position (cons cz-v* (cdr cz-words))))
+                 (define en* (string-join (cons en-v* (cdr en-words)) " "))
+                 (list (toCZ en* cz* (describe-verb-form vf))
+                       (toEN cz* en* "verb phrase")))]
+              [else #;(ENCZ en cz-str (pretty-type lhs)) null])]
        [(word cz) (ENCZ en cz (pretty-type lhs))]
-       [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
+       [(phrase cz) (ENCZ en cz (pretty-type lhs))]
+       [_ null]))))
+
+(define (adjust/2nd-position words)
+  ;; FIXME: doesn't work if 1st position is multi-word phrase
+  ;; FIXME: more of p134; problem: grammar-dependent
+  (define (insert-2nd x xs) (list* (car xs) x (cdr xs)))
+  (string-join (cond [(for/or ([word (in-list words)] #:when (member word '("se" "si"))) word)
+                      => (lambda (move) (insert-2nd move (remove move words)))]
+                     [else words])
+               " "))
 
 ;; ============================================================
 
