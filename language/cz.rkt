@@ -1,5 +1,7 @@
 #lang racket/base
 (require racket/match
+         racket/list
+         racket/string
          "base.rkt")
 (provide (all-defined-out)
          pronoun)
@@ -68,6 +70,14 @@
 
 (define (animate-noun cz) (noun* cz #t))
 (define (inanimate-noun cz) (noun* cz #f))
+
+
+;; ----------------------------------------
+;; Pronoun
+
+(define nom-pronouns
+  ;; 1s   2s    3s-m  3s-f  3s-n  1p   2p   3p
+  '#("já" "ty"  "on"  "ona" "to"  "my" "vy" "oni"))
 
 
 ;; ----------------------------------------
@@ -148,3 +158,64 @@
 
 (define (person->index p)
   (case p [(1s) 0] [(2s) 1] [(3s) 2] [(1p) 3] [(2p) 4] [(3p) 5]))
+
+;; ------------------------------------------------------------
+;; Numbers
+
+(define cz-numbers
+  '([0            "nula"]
+    [1           "jedna"]
+    [2             "dva"]
+    [3             "tři"]
+    [4           "čtyři"]
+    [5             "pět"]
+    [6            "šest"]
+    [7            "sedm"]
+    [8             "osm"]
+    [9           "devět"]
+    [10          "deset"]
+    [11       "jedenáct"]
+    [12        "dvanáct"]
+    [13        "třináct"]
+    [14        "čtrnáct"]
+    [15        "patnáct"]
+    [16       "šestnáct"]
+    [17       "sedmnáct"]
+    [18        "osmnáct"]
+    [19     "devatenáct"]
+    [20         "dvacet"]
+    [30         "třicet"]
+    [40       "čtyřicet"]
+    [50        "padesát"]
+    [60        "šedesát"]
+    [70      "sedmdesát"]
+    [80       "osmdesát"]
+    [90      "devadesát"]))
+
+(define (nat->cz n)
+  (define (ifnz f n) (if (zero? n) '() (f n)))
+  (define (base n)
+    (cond [(assoc n cz-numbers) => cadr]
+          [else
+           (define d (remainder n 10))
+           (list (base (- n d)) (ifnz base d))]))
+  (define (hundreds n)
+    (case n
+      [(1) "sto"]
+      [(2) (list "dvě" "stě")]
+      [(3 4) (list (base n) "sta")]
+      [else (list (base n) "set")]))
+  (define (thousands n)
+    (case n
+      [(1) "tisíc"]
+      [(2 3 4) (list (base n) "tisíce")]
+      [else (list (base n) "tisíc")]))
+  (unless (and (<= 0 n) (< n #e1e6))
+    (error 'nat->cz "out of range: ~s:" n))
+  (string-join
+   (let ([t (quotient n 1000)]
+         [h (quotient (remainder n 1000) 100)]
+         [b (remainder n 100)])
+     (flatten (list (ifnz thousands t)
+                    (ifnz hundreds h)
+                    (ifnz base b))))))

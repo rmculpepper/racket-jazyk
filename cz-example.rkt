@@ -231,15 +231,17 @@ na				"in, at" ;; FIXME
 "Kolik je ...?"			"How much is ...?" ;; but not "How much does it cost?"
 "Například: ..."		"For example: ..."
 
+#:translate pronoun
+já                      I
+ty                      "you (singular informal)"
+on                      he
+ona                     she
+to                      "it, that"
+my                      we
+vy                      "you (plural, singular formal)"
+oni                     they
 
 #|
-----------------------------------------
-Personal pronouns
-
-1	já		my
-2	ty		vy
-3	on/ona/to	oni
-
 ----------------------------------------
 Vocative
 
@@ -248,36 +250,6 @@ Tom	-> Tome!
 
 pan	-> pane
 paní	-> paní
-
-----------------------------------------
-Conjugation of "být" = "to be" w/ negation
-
-inf	být
-1s	jsem		nejsem
-2s	jsi (seš)	nejsi (nejseš)
-3s	je  		není
-1p	jsme		nejsme
-2p	jste		nejste
-3p	jsou		nejsou
-
-----------------------------------------
-Conjugation of regular verbs
-
-	-á verb	       -í verbs		-uj verbs
-
-	dělat	       rozumět		pracovat
-1s	dělám	       rozumím		pracuju
-2s	děláš	       rozumíš		pracuješ
-3s	dělá	       rozumí		pracuje
-1p	děláme	       rozumíme		pracujeme
-2p	děláte	       rozumíte		pracujete
-3p	dělaji	       rozumí		pracujou
-
-----------------------------------------
-Numbers
-
-0 nula
-1-10	jedna, dva, tři, čtyři, pět, šest, sedm, osm, devět, deset
 
 ----------------------------------------
 Symbols
@@ -449,20 +421,14 @@ To je { ..., vpravo, vlevo, nahoře, ... }.
 ----------------------------------------
 Nominative Singular
 
-Ma	   ten		jeden		-ý
-Mi	   ten		jeden		-ý
-F	   ta		jedna		-á
-N	   to		jedno		-é
+           this         one
+Ma	   ten		jeden
+Mi	   ten		jeden
+F	   ta		jedna
+N	   to		jedno
 
 ----------------------------------------
 Numbers
-
-11-19	jedenáct, dvanáct, třináct, čtrnáct, patnáct, šestnáct, sedmnáct,
-	osmnáct, devatenáct
-20-40	dvacet, třicet, čtyřicet
-50-90	padesát, šedesát, sedmdesát, osmdesát, devadesát
-100	sto (stě, sta, set)
-1000	tisíc
 
 1	jeden/jedna/jedno <NOM-SG>
 2-4	{dva, tři, čtyři} <NOM-PL>
@@ -640,28 +606,6 @@ F	dobrou		kvalitní	polévku		rýži
 N	dobré		kvalitní	pivo			zelí, kuře
 
 That is, only Ma and F change.
-
-----------------------------------------
-Fourth conjugation verbs
-
-inf	číst	pít
-1s	čtu	piju
-2s	čteš	piješ
-3s	čte	pije
-1p	čteme	pijeme
-2p	čtete	pijete
-3p	čtou	pijou
-
-----------------------------------------
-Conjugation of "chtit"
-
-inf	chtít
-1s	chci
-2s	chceš
-3s	chce
-1p	chceme
-2p	chcete
-3p	chcějí
 |#
 
 ;; ============================================================

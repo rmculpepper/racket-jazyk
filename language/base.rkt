@@ -10,7 +10,7 @@
 ;; ------------------------------------------------------------
 
 ;; An Entry is one of:
-;; - (translation Element Element)
+;; - (translation Element String)
 ;; - ...
 (struct translation (lhs rhs) #:transparent)
 
