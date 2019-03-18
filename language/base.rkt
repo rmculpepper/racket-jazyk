@@ -119,7 +119,7 @@
 
 ;; grammar-ref : Grammar String Symbol -> (U Element #f)
 (define (grammar-ref d key gtype)
-  (cond [(hash-ref d key #f)
+  (cond [(hash-ref (grammar-h d) key #f)
          => (lambda (elems)
               (for/first ([elem (in-list elems)]
                           #:when (equal? (grammar-type elem) gtype))
@@ -154,4 +154,3 @@
     [(3p) "3rd-person plural"]
     [(ppart) "past participle"]
     [else 'describe-verb-form "bad verb form: ~s" vf]))
-

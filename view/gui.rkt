@@ -6,6 +6,7 @@
          slideshow/base
          pict
          "../language/base.rkt"
+         (prefix-in cz: "../language/cz.rkt")
          (prefix-in en: "../language/en.rkt")
          (prefix-in en: "../en.rkt")
          "qa.rkt")
@@ -343,21 +344,19 @@
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
 
 (define (jazyk->qas sections
-                    #:verb-forms [verb-forms '(inf)])
+                    #:verb-forms [verb-forms '(inf 1s 2s 3s 1p 2p 3p)])
   (flatten
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
      (match lhs
-       #|
        [(verb _)
         (for/list ([vf (in-list verb-forms)])
-          (define cz (cz:verb-form cz vf))
-          (define env (dictionary-ref en:dict rhs 'verb))
-          (define en (and env (en:verb-form rhs vf)))
-          (cond [(and cz en) (ENCZ en vz (describe-verb-form vf))]
+          (define cz (cz:verb-form lhs vf))
+          (define env (grammar-ref en:jgrammar en 'verb))
+          (define en* (and env (en:verb-form env vf)))
+          (cond [(and cz en*) (ENCZ en* cz (describe-verb-form vf))]
                 [else null]))]
-       |#
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
 

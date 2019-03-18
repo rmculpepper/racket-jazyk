@@ -37,7 +37,8 @@
 (define (verb-form v vf)
   (case vf
     [(inf) (verb-inf v)]
-    [(1s 2s 3s 1p 2p 3p) (conjugate v 'present vf)]
+    [(3s) (conjugate v 'present vf)]
+    [(1s 2s 1p 2p 3p) (join (person->pronoun vf) (conjugate v 'present vf))]
     [(ppart) (verb-ppart v)]))
 
 (define (conjugate v tense p)
@@ -64,3 +65,12 @@
 
 (define (person->index p)
   (case p [(1s) 0] [(2s) 2] [(3s) 1] [(1p) 2] [(2p) 2] [(3p) 2]))
+
+(define (person->pronoun p)
+  (case p
+    [(1s) "I"]
+    [(2s) "you"]
+    [(3s) "he/she/it"] ;; FIXME?!
+    [(1p) "we"]
+    [(2p) "you"]
+    [(3p) "they"]))
