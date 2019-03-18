@@ -153,6 +153,7 @@
     (define/public (say us)
       (call-with-semaphore mutex (lambda () (say* us))))
     (define/private (say* us)
+      (custodian-shutdown-all cust)
       (set! cust (make-custodian))
       (parameterize ((current-custodian cust)
                      (current-subprocess-custodian-mode 'interrupt))
