@@ -3,8 +3,8 @@
          racket/gui
          racket/list
          racket/match
+         slideshow/base
          pict
-         slideshow
          "../language/base.rkt"
          "qa.rkt")
 (provide (all-defined-out))
@@ -183,10 +183,10 @@
     (define/public (say-cz t) (void))
     ))
 
-(define (run rounds)
+(define (run-gui rounds #:audio? [audio? #t])
   (define f (new frame% (label "Flashcard")))
   (define c (new flashcard-canvas% (parent f)
-                 (audio (case (system-type 'os)
+                 (audio (case (and audio? (system-type 'os))
                           [(macosx) (new mac-audio%)]
                           [else (new null-audio%)]))
                  (min-width (* 2 WIDTH))
@@ -349,9 +349,6 @@
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]))))
 
-(define (run-gui jazyk)
-  (run (list->vector (take (shuffle (jazyk->qas jazyk)) 50))))
-
 ;; ============================================================
 
 ;; TODO:
@@ -359,7 +356,52 @@
 ;; - show all correct answers (eg: "doctor (m)" -> "doktor" and "lekař")
 
 ;; TODO: Command-line options
-;; - set number of cards
 ;; - mode: verb conjugation practice
 ;; - add f,n forms of adjectives
-;; - mode: in-order vs random
+
+;; This indirection is necessary because the slideshow library reads
+;; the command-line arguments to initialize its parameters. (!!!!)
+(module run racket/base
+  (require racket/lazy-require)
+  (lazy-require [(submod ".." run*) [run/argv]])
+  (provide run)
+  (define (run jazyk)
+    (let ([argv (current-command-line-arguments)])
+      (parameterize ((current-command-line-arguments (vector)))
+        (run/argv jazyk argv)))))
+
+(module+ run*
+  (require racket/cmdline)
+  (provide run/argv)
+
+  (define (fatal fmt . args)
+    (apply raise-user-error 'jazyk fmt args))
+
+  (define (run/argv jazyk argv)
+    ;; Options, mutated below
+    (define audio? #t)
+    (define shuffle? #t)
+    (define ncards 50)
+
+    (command-line
+     #:argv argv
+     #:once-each
+     [("--no-audio")
+      "No audio, even when available."
+      (set! audio? #f)]
+     [("--no-shuffle")
+      "Don't shuffle the cards."
+      (set! shuffle? #f)]
+     [("-n" "--number")
+      number-of-cards
+      "Set maximum number of cards to generate."
+      (let ([n (string->number number-of-cards)])
+        (unless (exact-nonnegative-integer? n)
+          (fatal "expected nonnegative integer for number of cards, given: ~e" number-of-cards))
+        (set! ncards n))]
+     #:args ()
+     (parameterize ((current-command-line-arguments (vector)))
+       (let* ([qas (jazyk->qas jazyk)]
+              [qas (if shuffle? (shuffle qas) qas)])
+         (run-gui (list->vector (take qas (min ncards (length qas))))
+                  #:audio? audio?))))))

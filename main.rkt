@@ -51,8 +51,8 @@
         (define jazyk (append s.ast ...))
         (module* main #f
           (#%plain-module-begin
-           (require jazyk/view/gui)
-           (run-gui jazyk))))]))
+           (require (submod jazyk/view/gui run))
+           (run jazyk))))]))
 
 (define (convert x)
   (cond [(pair? x) (cons (convert (car x)) (convert (cdr x)))]
