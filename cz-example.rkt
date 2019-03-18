@@ -503,7 +503,7 @@ zvědavý			curious
 spokojený		satisfied
 výborný			excellent
 zdravý			healthy
-nějaký			somewhat ; (?? not adverb! ??)
+;;nějaký			somewhat ; (?? not adverb! ??)
 nemocný			sick
 hodný			"good (kind?)"
 
@@ -761,7 +761,7 @@ učit				teach
 #:translate phrase
 "Je mi <NUM> let."		"I am <NUM> years old. (I have <NUM> years.)"
 "Kolik vám je?"			"How old are you?"
-"Učím čeština."			"I teach Czech (the Czech language)."
+"Učím češtinu."			"I teach Czech (the Czech language)."
 ;;"Je v domácnosti."		_
 "Je prostě fantastický!"	"He's just great!"
 "ještě nemít"			"to not have yet"

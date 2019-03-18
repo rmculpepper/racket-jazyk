@@ -353,3 +353,13 @@
   (run (list->vector (take (shuffle (jazyk->qas jazyk)) 50))))
 
 ;; ============================================================
+
+;; TODO:
+;; - add disambiguation hints (eg: "doctor" needs m vs f to disambiguate)
+;; - show all correct answers (eg: "doctor (m)" -> "doktor" and "lekař")
+
+;; TODO: Command-line options
+;; - set number of cards
+;; - mode: verb conjugation practice
+;; - add f,n forms of adjectives
+;; - mode: in-order vs random

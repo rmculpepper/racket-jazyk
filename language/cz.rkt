@@ -84,6 +84,12 @@
          (adj/i cz)]
         [else (error 'adjective "irregular adjective: ~e" cz)]))
 
+(define (decline-adjective a g)
+  (match a
+    [(adj/i cz) cz]
+    [(adj/y cz)
+     (define stem (substring cz 0 (sub1 (string-length cz))))
+     (string-append stem (case g [(m) "ý"] [(f) "á"] [(n) "é"]))]))
 
 ;; ----------------------------------------
 ;; Verbs
