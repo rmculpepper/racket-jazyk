@@ -344,14 +344,17 @@
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
 
 (define (jazyk->qas sections
+                    #:grammar-types grammar-types
                     #:adj-forms adj-forms
                     #:verb-forms verb-forms)
   (define cz:grammar (new cz:cz-grammar% (jazyk sections)))
+  (define (ignore? e) (and grammar-types (not (memq (grammar-type e) grammar-types))))
   (flatten
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
      (match lhs
+       [(? ignore?) null]
        [(? adj?)
         (for/list ([af (in-list adj-forms)])
           (define cz* (send cz:grammar decline-adj lhs 'nom af 's))
@@ -391,8 +394,8 @@
 ;; - split aux info into *disambiguating* (part of Q) vs not (part of A)
 
 ;; TODO: Command-line options
-;; - mode: verb conjugation practice
-;; - add f,n forms of adjectives
+;; - only to, only from
+;; - ordinals
 
 ;; This indirection is necessary because the slideshow library reads
 ;; the command-line arguments to initialize its parameters. (!!!!)
@@ -412,11 +415,16 @@
   (define (fatal fmt . args)
     (apply raise-user-error 'jazyk fmt args))
 
+  (define (check-every xs ok? what)
+    (for ([x (in-list xs)] #:when (not (ok? x)))
+      (fatal "expected ~a, given: ~e" what x)))
+
   (define (run/argv jazyk argv)
     ;; Options, mutated below
     (define audio? #t)
     (define shuffle? #t)
     (define ncards 50)
+    (define grammar-types #f)
     (define verb-forms '(inf 1s 2s 3s 1p 2p 3p ppart))
     (define adj-forms '(m f n))
 
@@ -436,21 +444,30 @@
         (unless (exact-nonnegative-integer? n)
           (fatal "expected nonnegative integer for number of cards, given: ~e" number-of-cards))
         (set! ncards n))]
+     [("--grammar-types")
+      only-grammar-types
+      "Include only the listed grammar types."
+      (let ([gts (map string->symbol (string-split only-grammar-types ","))])
+        (check-every gts grammar-type? "grammar type")
+        (set! grammar-types gts))]
      [("--adj-forms")
       adj-form-list
       "Include the given adjective forms."
       (let ([afs (map string->symbol (string-split adj-form-list ","))])
-        (for ([af (in-list afs)]) (unless (gender? af) (fatal "expected gender, given: ~s" af)))
+        (check-every afs gender? "gender")
         (set! adj-forms afs))]
      [("--verb-forms")
       verb-form-list
       "Include the given verb forms."
       (let ([vfs (map string->symbol (string-split verb-form-list ","))])
-        (for ([vf (in-list vfs)]) (unless (verb-form? vf) (fatal "expected verb form, given: ~s" vf)))
+        (check-every vfs verb-form? "verb form")
         (set! verb-forms vfs))]
      #:args ()
      (parameterize ((current-command-line-arguments (vector)))
-       (let* ([qas (jazyk->qas jazyk #:verb-forms verb-forms #:adj-forms adj-forms)]
+       (let* ([qas (jazyk->qas jazyk
+                               #:grammar-types grammar-types
+                               #:verb-forms verb-forms
+                               #:adj-forms adj-forms)]
               [qas (if shuffle? (shuffle qas) qas)])
          (run-gui (list->vector (take qas (min ncards (length qas))))
                   #:audio? audio?))))))

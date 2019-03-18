@@ -53,6 +53,9 @@
 ;; - 'adv
 ;; - 'conj
 ;; - 'prep
+(define (grammar-type? x)
+  (and (memq x '(#f noun verb adj adv conj prep)) #t))
+
 (define (grammar-type elem) 
   (and (prop:grammar? elem) (prop:grammar-ref elem)))
 
@@ -96,7 +99,7 @@
 (struct verb-phrase phrase () #:transparent
   #:property prop:grammar 'verb #:property prop:pretty-type "verb phrase")
 (struct prep-phrase phrase () #:transparent
-  #:property prop:grammar 'adv ;; FIXME?
+  ;; #:property prop:grammar 'adv ;; FIXME?
   #:property prop:pretty-type "prepositional phrase")
 (struct imperative-phrase phrase () #:transparent
   #:property prop:pretty-type "imperative phrase")
