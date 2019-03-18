@@ -229,3 +229,15 @@
      (flatten (list (ifnz thousands t)
                     (ifnz hundreds h)
                     (ifnz base b))))))
+
+;; ============================================================
+
+(define (adjust/2nd-position words)
+  ;; FIXME: doesn't work if 1st position is multi-word phrase
+  ;; FIXME: more of p134; problem: grammar-dependent
+  (define (insert-2nd x xs) (list* (car xs) x (cdr xs)))
+  (string-join
+   (cond [(for/or ([word (in-list words)] #:when (member word '("se" "si"))) word)
+          => (lambda (move) (insert-2nd move (remove move words)))]
+         [else words])
+   " "))

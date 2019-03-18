@@ -371,7 +371,7 @@
                (for/list ([vf (in-list verb-forms)])
                  (define cz-v* (cz:verb-form cz-v vf))
                  (define en-v* (en:verb-form en-v vf))
-                 (define cz* (adjust/2nd-position (cons cz-v* (cdr cz-words))))
+                 (define cz* (cz:adjust/2nd-position (cons cz-v* (cdr cz-words))))
                  (define en* (string-join (cons en-v* (cdr en-words)) " "))
                  (list (toCZ en* cz* (describe-verb-form vf))
                        (toEN cz* en* "verb phrase")))]
@@ -379,15 +379,6 @@
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]
        [_ null]))))
-
-(define (adjust/2nd-position words)
-  ;; FIXME: doesn't work if 1st position is multi-word phrase
-  ;; FIXME: more of p134; problem: grammar-dependent
-  (define (insert-2nd x xs) (list* (car xs) x (cdr xs)))
-  (string-join (cond [(for/or ([word (in-list words)] #:when (member word '("se" "si"))) word)
-                      => (lambda (move) (insert-2nd move (remove move words)))]
-                     [else words])
-               " "))
 
 ;; ============================================================
 
