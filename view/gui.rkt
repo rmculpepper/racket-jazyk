@@ -344,6 +344,7 @@
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
 
 (define (jazyk->qas sections
+                    #:adj-forms adj-forms
                     #:verb-forms verb-forms)
   (define cz:grammar (new cz:cz-grammar% (jazyk sections)))
   (flatten
@@ -351,7 +352,16 @@
                [e (in-list (section-entries s))] #:when (translation? e))
      (match-define (translation lhs en) e)
      (match lhs
-       [(verb _)
+       [(? adj?)
+        (for/list ([af (in-list adj-forms)])
+          (define cz* (send cz:grammar decline-adj lhs 'nom af 's))
+          (define en* (send en:grammar decline-adj (adj en) 'nom af 's))
+          ;; FIXME: describe-adj-form?
+          (cond [(and cz* en*)
+                 (list (toCZ en* cz* (format "adjective, ~s" af))
+                       (toEN cz* en* (pretty-type lhs)))]
+                [else null]))]
+       [(? verb?)
         (define en-v (send en:grammar lookup en 'verb))
         (for/list ([vf (in-list verb-forms)])
           (define cz* (send cz:grammar conjugate-verb lhs vf))
@@ -378,6 +388,7 @@
 ;; TODO:
 ;; - add disambiguation hints (eg: "doctor" needs m vs f to disambiguate)
 ;; - show all correct answers (eg: "doctor (m)" -> "doktor" and "lekař")
+;; - split aux info into *disambiguating* (part of Q) vs not (part of A)
 
 ;; TODO: Command-line options
 ;; - mode: verb conjugation practice
@@ -407,6 +418,7 @@
     (define shuffle? #t)
     (define ncards 50)
     (define verb-forms '(inf 1s 2s 3s 1p 2p 3p ppart))
+    (define adj-forms '(m f n))
 
     (command-line
      #:argv argv
@@ -424,6 +436,12 @@
         (unless (exact-nonnegative-integer? n)
           (fatal "expected nonnegative integer for number of cards, given: ~e" number-of-cards))
         (set! ncards n))]
+     [("--adj-forms")
+      adj-form-list
+      "Include the given adjective forms."
+      (let ([afs (map string->symbol (string-split adj-form-list ","))])
+        (for ([af (in-list afs)]) (unless (gender? af) (fatal "expected gender, given: ~s" af)))
+        (set! adj-forms afs))]
      [("--verb-forms")
       verb-form-list
       "Include the given verb forms."
@@ -432,7 +450,7 @@
         (set! verb-forms vfs))]
      #:args ()
      (parameterize ((current-command-line-arguments (vector)))
-       (let* ([qas (jazyk->qas jazyk #:verb-forms verb-forms)]
+       (let* ([qas (jazyk->qas jazyk #:verb-forms verb-forms #:adj-forms adj-forms)]
               [qas (if shuffle? (shuffle qas) qas)])
          (run-gui (list->vector (take qas (min ncards (length qas))))
                   #:audio? audio?))))))

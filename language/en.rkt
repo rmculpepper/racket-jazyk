@@ -75,6 +75,8 @@
   (class grammar-base%
     (super-new)
 
+    (define/override (decline-adj a c g n) (word-key a))
+
     (define/override (conjugate-verb v vf)
       (case vf
         [(inf) (join "to" (verb-inf v))]

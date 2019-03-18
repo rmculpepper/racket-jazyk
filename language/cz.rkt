@@ -95,13 +95,6 @@
          (adj/i cz)]
         [else (error 'adjective "irregular adjective: ~e" cz)]))
 
-(define (decline-adjective a g)
-  (match a
-    [(adj/i cz) cz]
-    [(adj/y cz)
-     (define stem (substring cz 0 (sub1 (string-length cz))))
-     (string-append stem (case g [(m) "ý"] [(f) "á"] [(n) "é"]))]))
-
 ;; ----------------------------------------
 ;; Verbs
 
@@ -229,6 +222,15 @@
 (define cz-grammar%
   (class grammar-base%
     (super-new)
+
+    (define/override (decline-adj a c g n)
+      (cond [(and (eq? c 'nom) (eq? n 's))
+             (match a
+               [(adj/i cz) cz]
+               [(adj/y cz)
+                (define stem (substring cz 0 (sub1 (string-length cz))))
+                (string-append stem (case g [(m ma mi) "ý"] [(f) "á"] [(n) "é"]))])]
+            [else #f]))
 
     (define/override (conjugate-verb v vf)
       (case vf

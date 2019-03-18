@@ -123,6 +123,12 @@
     [(ppart) "past participle"]
     [else 'describe-verb-form "bad verb form: ~s" vf]))
 
+;; A Case is one of 'nom, 'gen, 'dat, 'acc, 'loc, 'voc, 'ins.
+;; A Gender is one of 'm, 'ma, 'mi, 'f, 'n.
+;; A GNumber is one of 's, 'p.
+
+(define (gender? x) (memq x '(m ma mi f n)) #t)
+
 ;; ============================================================
 
 (define grammar<%>
@@ -130,6 +136,8 @@
     lookup                 ;; String GrammarType -> Element/#f
 
     ordinal                ;; Nat -> String
+
+    decline-adj            ;; Adjective Case Gender GNumber -> String/#f
 
     conjugate-verb         ;; Verb VerbForm -> String/#f
     conjugate-verb-phrase  ;; VerbPhrase VerbForm -> String/#f
@@ -166,6 +174,10 @@
 
     (define/public (ordinal n)
       (format "~s" n))
+
+    ;; ----------------------------------------
+
+    (define/public (decline-adj a c g n) #f)
 
     ;; ----------------------------------------
 
