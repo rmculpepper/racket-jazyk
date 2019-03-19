@@ -195,7 +195,9 @@
                  (min-width (* 2 WIDTH))
                  (min-height HEIGHT)
                  (rounds rounds)))
-  (send f show #t))
+  (send f show #t)
+  (send c focus)
+  (void))
 
 ;; ============================================================
 ;; Slideshow config and helpers
