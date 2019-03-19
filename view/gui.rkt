@@ -330,25 +330,24 @@
 
 ;; ----------------------------------------
 
-(define (toCZ en-phrase cz-phrase pretty-type)
-  (new en=>cz% (en-phrase en-phrase) (cz-phrase cz-phrase) (pretty-type pretty-type)))
-
-(define (toEN cz-phrase en-phrase pretty-type)
-  (new cz=>en% (cz-phrase cz-phrase) (en-phrase en-phrase) (pretty-type pretty-type)))
-
-(define (ENCZ en-phrase cz-phrase pretty-type)
-  (list (toCZ en-phrase cz-phrase pretty-type)
-        (toEN cz-phrase en-phrase pretty-type)))
-
 (define (Conj inf subj verb #:vtl [inf-tl #f])
   (new conj% (infinitive inf) (subject subj) (verb verb) (inf-tl inf-tl)))
 
 (define (jazyk->qas sections
+                    #:to? to?
                     #:grammar-types grammar-types
                     #:adj-forms adj-forms
                     #:verb-forms verb-forms)
-  (define cz:grammar (new cz:cz-grammar% (jazyk sections)))
+  (define (toCZ en cz pretty-type)
+    (cond [to? (new en=>cz% (en-phrase en) (cz-phrase cz) (pretty-type pretty-type))]
+          [else null]))
+  (define (toEN cz en pretty-type)
+    (new cz=>en% (cz-phrase cz) (en-phrase en) (pretty-type pretty-type)))
+  (define (ENCZ en cz pretty-type)
+    (list (toCZ en cz pretty-type)
+          (toEN cz en pretty-type)))
   (define (ignore? e) (and grammar-types (not (memq (grammar-type e) grammar-types))))
+  (define cz:grammar (new cz:cz-grammar% (jazyk sections)))
   (flatten
    (for*/list ([s (in-list sections)]
                [e (in-list (section-entries s))] #:when (translation? e))
@@ -385,6 +384,7 @@
        [(word cz) (ENCZ en cz (pretty-type lhs))]
        [(phrase cz) (ENCZ en cz (pretty-type lhs))]
        [_ null]))))
+
 
 ;; ============================================================
 
@@ -427,6 +427,7 @@
     (define grammar-types #f)
     (define verb-forms '(inf 1s 2s 3s 1p 2p 3p ppart))
     (define adj-forms '(m f n))
+    (define to? #t)
 
     (command-line
      #:argv argv
@@ -434,6 +435,9 @@
      [("--no-audio")
       "No audio, even when available."
       (set! audio? #f)]
+     [("--no-to")
+      "Don't include *to* translations."
+      (set! to? #f)]
      [("--no-shuffle")
       "Don't shuffle the cards."
       (set! shuffle? #f)]
@@ -465,6 +469,7 @@
      #:args ()
      (parameterize ((current-command-line-arguments (vector)))
        (let* ([qas (jazyk->qas jazyk
+                               #:to? to?
                                #:grammar-types grammar-types
                                #:verb-forms verb-forms
                                #:adj-forms adj-forms)]
