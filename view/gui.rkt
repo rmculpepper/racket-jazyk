@@ -222,7 +222,7 @@
 ;; (current-main-font "Helvetica") ;; ok
 ;; (current-main-font "Lucida Sans Unicode") ;; good
 ;; (current-main-font "Tahoma") ;; good!
-(current-main-font "Verdana") ;; good!!
+(current-main-font '(aligned . "Verdana")) ;; good!!
 
 ;; Monospaced:
 ;; (current-main-font "Consolas") ;; ok -- fixed width
