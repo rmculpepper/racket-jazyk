@@ -24,5 +24,5 @@ proto                           therefore
 #:translate verb-phrase
 "učit se česky"			"learn Czech"
 
-#:escape
+#:grammar
 (regular-verb "učit")

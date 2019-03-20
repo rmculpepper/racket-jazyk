@@ -22,7 +22,7 @@
 
   (define-splicing-syntax-class part
     #:attributes (ast)
-    (pattern (~seq #:escape e:expr ...)
+    (pattern (~seq #:grammar e:expr ...)
              #:with ast #'(list e ...))
     (pattern (~seq #:words k:id e:elem ...)
              #:with ast #'(list (k e.ast) ...))
