@@ -853,6 +853,14 @@ umět                    "know how to"
 "cvičit aerobik"		"do aerobics"
 "žít spolu"			"live together"
 "omlouvat se"                   "apologize"
+"být ve škole"                  "be at school"
+"být v práci"                   "be at work"
+"cvičit jógu"                   "do yoga"
+"jít do práce"                  "go (on foot) to work"
+"jít do školy"                  "go (on foot) to school"
+"pracovat na počítači"          "work on the computer"
+"psát domácí úkol"              "do homework"
+
 
 #:translate prepositional-phrase
 "v jednu (hodinu)"			"at one o'clock"
@@ -886,8 +894,6 @@ zavřeno                                 closed
 "To přece umí každý!"                   "Everyone can do it!"
 "už od sedmi hodin"                     "already at 7 o'clock"
 
-;; TODO: p48
-
 #|
 ----------------------------------------
 Time
@@ -903,6 +909,51 @@ night		= noc		"at night"		= v noci
 |#
 
 
+;; ============================================================
+#:section "Lekce 6"
+
+#:translate adjective
+příští                              next
+vážný                               serious
+
+#:translate adverb
+výjimečně                           exceptionally
+vážně                               seriously
+vlastně                             actually
+chvíli                              "for a moment" ;; ???
+jasně                               clearly
+
+#:translate regular-verb
+zrušit                              cancel
+dokončit                            "finish, complete" ;; perf, transitive
+končit                              end    ;; imperf
+připravovat                         prepare
+
+#:translate irregular-verb
+
+#:translate noun-phrase
+"příští týden"                      "next week"
+
+#:translate prepositional-phrase
+"u doktora"                         "at the doctor"
+"na schůzku"                        "to the meeting"
+
+#:translate verb-phrase
+"podívat se na <OBJ>"               "look at"
+
+#:translate phrase
+"Co asi dělá?"                      "What are they doing?" ;; ???
+"Bolí me zub."                      "My tooth hurts."
+"Měl jsem celý den volno."          "I had the whole day off."
+"Marina mluví s Tomem."             "Marina speaks with Tom."
+"Opravdu?"                          "Really?"
+"Jaký byl víkend?"                  "How was your weekend?"
+"Jaká byla dovolená?"               "How was your holiday?"
+"Jak ses měl o víkendu?"            "How was your weekend?"
+
+;; stopped before p52
+
+;; Abbreviation: "jsi se" -> "ses"
 
 ;; ============================================================
 
