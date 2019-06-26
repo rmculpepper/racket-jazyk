@@ -402,13 +402,42 @@
 ;; This indirection is necessary because the slideshow library reads
 ;; the command-line arguments to initialize its parameters. (!!!!)
 (module run racket/base
-  (require racket/lazy-require)
+  (require racket/lazy-require
+           racket/match
+           "../language/base.rkt")
   (lazy-require [(submod ".." run*) [run/argv]])
   (provide run)
+
+  (define (run-words jazyk argv what)
+    (define h (make-hash)) ;; Hash[String => (listof (cons Entry String))]
+    (for* ([s (in-list jazyk)]
+           [e0 (in-list (section-entries s))])
+      (define (put! key)
+        (hash-set! h key (cons (cons e0 (section-name s)) (hash-ref h key null))))
+      (let loop ([e e0])
+        (match e
+          [(translation lhs rhs) (loop lhs)]
+          [(word key) (when (memq 'word what) (put! key))]
+          [(phrase key) (when (memq 'phrase what) (put! key))]
+          [_ (void)])))
+    (for ([word (in-list (sort (hash-keys h) string-locale<?))])
+      (printf "~a\n" word)))
+
   (define (run jazyk)
-    (let ([argv (current-command-line-arguments)])
-      (parameterize ((current-command-line-arguments (vector)))
-        (run/argv jazyk argv)))))
+    (match (vector->list (current-command-line-arguments))
+      [(cons "gui" argv)
+       (parameterize ((current-command-line-arguments (vector)))
+         (run/argv jazyk argv))]
+      [(cons "words" argv)
+       (run-words jazyk argv '(word))]
+      [(cons "phrases" argv)
+       (run-words jazyk argv '(phrase))]
+      [_
+       (eprintf "usage: racket ~a <command> <options>\n" "this-file.rkt")
+       (eprintf "Available commands:\n")
+       (eprintf "  gui     -- run the flashcard gui\n")
+       (eprintf "  words   -- print a word list\n")
+       (eprintf "  phrases -- print a phrases list\n")])))
 
 (module+ run*
   (require racket/cmdline)
