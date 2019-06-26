@@ -1170,3 +1170,165 @@ fotografovat                    "photograph, take photographs"
 "na stole"                      "on the table"
 "na gauči"                      "on the couch"
 "v garaži"                      "in the garage" ;; ? in/into?
+
+
+;; ============================================================
+#:section "Notes 2019-03-14"
+
+#:translate adverb
+než                             than ;; ??
+došt                            enough
+pozdě                           late
+
+#:translate animate-noun
+humr                            lobster
+
+#:translate regular-verb
+vrátit                          return
+cestovat                        travel
+slyšet                          hear
+
+#:translate verb-phrase
+"vrátit se"                     "come back"
+"mít zpoždění"                  "have a delay" ;; "be late"
+
+#:translate prepositional-phrase
+"do Prahi"                      "to Prague"
+
+#:translate phrase
+"za padě"                       "in the fall"
+"na okraji města"               "in a suburb"
+"spaci wagon"                   "sleeping car on train"
+"před tím"                      "before then"
+
+;; ============================================================
+#:section "Notes 2019-03-21"
+
+#:translate inanimate-noun
+komoda                          "chest of drawers"
+okno                            window
+záclona                         curtain
+knihovna                        library ;; also bookshelf?
+krb                             fireplace
+věšák                           "coat hanger"
+
+#:translate noun-phrase
+"psací stůl"                    desk ;; "writing table"
+
+#:translate prepositional-phrase
+"naproti okno"                  "opposite the window" ;; on the other side from the window
+
+;; ============================================================
+#:section "Notes 2019-03-28"
+
+#:translate adjective
+mokrý                           wet
+
+#:translate inanimate-noun
+uhlí                            coal
+suterén                         basement
+schod                           step ;; schody = "stairs"
+přímení                         "ground floor"
+jídelna                         "dining room or cafeteria"
+kantýna                         "canteen"
+kohoutek                        "tap, faucet"
+dřez                            sink
+digestoř                        "oven hood"
+lože                            bed ;; old?
+obklad                          "well tiling"
+dlažba                          "floor tiling" ;; also pavement?
+nádržka                         "toilet reservoir"
+komín                           chimney
+dřevo                           wood
+plot                            fence
+důvod                           reason
+přístav                         "port, harbor"
+plaž                            beach
+
+#:translate noun-phrase
+"spaci vlak"                    "sleeping train"
+"mořské plody"                  "seafood"
+
+;; dlouhý (long) -> dělší (longer)
+;; "It's a Spanish village" = "It's all Greek to me"
+
+;; ============================================================
+#:section "Notes 2019-04-25"
+
+;; šel bych     = I would walk
+;; měl bych jít = I should walk (I would have to walk)
+
+#:translate adjective
+těžký                           "heavy, difficult" ;; complicated?
+
+#:translate adverb
+okolo                           "around"
+
+#:translate regular-verb
+navštívit                       visit
+zpívat                          sing
+
+#:translate animate-noun
+soused                          neighbor
+
+#:translate inanimate-noun
+výlet                           trip ;; from ausflug, but flying not necessarily
+zahrada                         garden
+fotka                           photo
+příroda                         "nature, countryside"
+píseň                           song
+zpěv                            song
+gramafon                        "record player"
+
+#:translate preposition
+okolo                           "around"
+
+#:translate noun-phrase
+"volný den"                     "free day, holiday"
+
+#:translate verb-phrase
+"hrát divadlo"                  "perform in the theater"
+
+;; ============================================================
+#:section "Notes 2019-05-02"
+
+#:translate adverb
+častečně                        partly
+skoro                           almost ;; eg, 49 je skoro 50
+
+#:translate adjective
+rajčatový                       tomato
+
+#:translate inanimate-noun
+rajče                           tomato
+stěna                           wall
+
+#:translate regular-verb
+pěstovat                        "grow, raise" ;; transitive, eg crops
+
+#:translate irregular-verb
+[#:i růst rost rostl]		grow ;; intransitive
+
+;; Tady je hezky. (adv)  VS  Tady je hezký park. (adj)
+
+;; ============================================================
+#:section "Notes 2019-05-09"
+
+#:translate adjective
+jiný                            "different, other"
+
+#:translate inanimate-noun
+sklo                            glass
+houba                           mushroom
+les                             forest
+vejce                           egg
+arašíde                         peanut
+
+#:translate animate-noun
+prase                           pig
+
+#:translate noun-phrase
+"skopové maso"                  "lamb meat"
+
+#:translate prepositional-phrase
+"z lesa"                        "from the forest"
