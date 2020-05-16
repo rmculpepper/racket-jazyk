@@ -11,14 +11,14 @@ raco pkg install --link --name jazyk ./racket-jazyk
 
 ## To Run
 
-To start the jazyk GUI, run `cz-example.rkt` as a Racket script:
+To start the jazyk GUI, run `cz-example.rkt` as a Racket script with the argument `gui`:
 
 ```
-$ racket cz-example.rkt
+$ racket cz-example.rkt gui
 ```
 
 You can see customization options by passing the `-h` flag:
 
 ```
-$ racket cz-example.rkt -h
+$ racket cz-example.rkt gui -h
 ```
